@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Back2Work</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <header >
+      <div>
+        <nav>
+        <a href="/dashboard">Temporary Dashboard Page</a>
+          {{#if loggedIn}}
+            <button id="logout" class="btn-no-style">Logout</button>
+          {{else}}
+          {{!-- if not logged in, they can click dashboard, but it
+          takes them to the login page --}}
+          <a href="/login">Login</a>
+          {{/if}}
+        </nav>
+      </di>
+      <div >
+        <h1> <a href="/">Back 2 Work</a> </h1>
+        <h2> A pandemic office story</h2>
+        <h3>This is main.handlebars talking</h3>
+      </div>
+    </header>
+    <main>
+      {{{ body }}}
+    </main>
+    <footer>
+      Working together safely!
+    </footer>
+  </div>
+  
+  {{#if loggedIn}}
+  <script src="/javascript/logout.js"></script>
+  {{/if}}
+</body>
+
+</html>
