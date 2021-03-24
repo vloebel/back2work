@@ -13,26 +13,26 @@ router.get('/', (req, res) => {
     });
 });
 
+// get a user by ID
 router.get('/:id', (req, res) => {
   User.findOne({
     attributes: { exclude: ['password'] },
     where: {
       id: req.params.id
     },
-    include: [
-      {
-        model: Post,
-        attributes: ['id', 'title', 'post_txt', 'created_at']
-      },
-      {
-        model: Comment,
-        attributes: ['id', 'comment_text', 'created_at'],
-        include: {
-          model: Post,
-          attributes: ['title']
-        }
-      }
-    ]
+    // include: [
+    //   {
+    //   //include model request and attendee to see what meetings are signed up
+    //   },
+    //   {
+    //     model: Comment,
+    //     attributes: ['id', 'comment_text', 'created_at'],
+    //     include: {
+    //       model: Post,
+    //       attributes: ['title']
+    //     }
+    //   }
+    // ]
   })
     .then(dbUserData => {
       if (!dbUserData) {
@@ -47,17 +47,24 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//post route to signup new user
+// called from public/javascript/signup.js
 router.post('/', (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
+  // expects {firstname 'Adrian', lastname 'Barnes' email: 'abarnesXYZ@gmail.com', password: 'password1234'}
   User.create({
-    username: req.body.username,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
     password: req.body.password
   })
     .then(dbUserData => {
+
+      console.log(`post user.create reports: ${dbUserData}`);
+
       req.session.save(() => {
         req.session.user_id = dbUserData.id;
-        req.session.username = dbUserData.username;
+        req.session.firstname = dbUserData.firstname;
+        req.session.lastname = dbUserData.lastname;
         req.session.loggedIn = true;
   
         res.json(dbUserData);
@@ -69,8 +76,9 @@ router.post('/', (req, res) => {
     });
 });
 
+//login existing user
 router.post('/login', (req, res) => {
-  // expects {email: 'lernantino@gmail.com', password: 'password1234'}
+  // expects {email: 'abnormal@gmail.com', password: 'password1234'}
   User.findOne({
     where: {
       email: req.body.email
@@ -90,7 +98,9 @@ router.post('/login', (req, res) => {
 
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
-      req.session.username = dbUserData.username;
+      req.session.id = dbUserData.id;
+      req.session.firstname = dbUserData.firstname;
+      req.session.lastname = dbUserData.lastname;
       req.session.loggedIn = true;
   
       res.json({ user: dbUserData, message: 'You are now logged in!' });
