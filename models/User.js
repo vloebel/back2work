@@ -19,7 +19,11 @@ User.init(
       primaryKey: true,
       autoIncrement: true
     },
-    username: {
+    firstname: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lastname: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -37,6 +41,14 @@ User.init(
       validate: {
         len: [4]
       }
+    },
+    //vll: if null no availability
+    //days of week are MTWRFSU but
+    // Saturday & Sunday are omitted by default
+    available: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue:'MTWRF'
     }
   },
   {
