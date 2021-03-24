@@ -14,7 +14,6 @@ const PORT = process.env.PORT || 3002;
 const sequelize = require("./config/connection");
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-console.log(`session timeout in: ${SESS_TIMEOUT}`)
 const sess = {
   secret: SESS_SECRET,
   cookie: {
@@ -42,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(require('./controllers/'));
 
-sequelize.sync({ force: false }).then(() => {
+// vll: while we are debugging tables force:true
+sequelize.sync({ force: true }).then(() => {
   app.listen(PORT, () => console.log(`Server listening on: http://localhost:${PORT}`));
 });

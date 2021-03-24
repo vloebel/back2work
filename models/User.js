@@ -13,7 +13,7 @@ class User extends Model {
 // create fields/columns for User model
 User.init(
   {
-    user_id: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -42,9 +42,13 @@ User.init(
         len: [4]
       }
     },
+    //vll: if null no availability
+    //days of week are MTWRFSU but
+    // Saturday & Sunday are omitted by default
     available: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
+      defaultValue:'MTWRF'
     }
   },
   {

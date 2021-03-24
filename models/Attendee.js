@@ -6,6 +6,11 @@ const sequelize = require('../config/connection');
 class Attendee extends Model{}
 
 // create fields/columns for Request model
+// points to request, the requested attendee, 
+// and says whether or not it's accepted
+//one meeting request will have many attendees
+//Attendees can be assigned to multiple mtgs.
+// but not at the same time, so they are unique per request
 Attendee.init(
   {
     id: {
@@ -15,18 +20,24 @@ Attendee.init(
       autoIncrement: true
     },
     request_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       references: {
         model: 'request',
         key: 'id'
       }
     },
+    // vll: I don't think this is a fk on user-
+    // it is a reference to that table, but it
+    // doesn't BELONG to it. (?)
+    // BUT is there a way to put the constraint?
+    // removed:
+      // references: {
+      //   model: 'users',
+      //   key: 'id'
+      // }
     user_id: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'user',
-        key: 'user_id'
-      }
+      allowNull: false
     },
     accepted: {
       type: DataTypes.BOOLEAN,
