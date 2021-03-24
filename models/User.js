@@ -13,13 +13,17 @@ class User extends Model {
 // create fields/columns for User model
 User.init(
   {
-    id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    username: {
+    firstname: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lastname: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -37,6 +41,10 @@ User.init(
       validate: {
         len: [4]
       }
+    },
+    available: {
+      type: DataTypes.STRING,
+      allowNull: false,
     }
   },
   {
