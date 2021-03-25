@@ -1,45 +1,41 @@
 const router = require('express').Router();
 const { Meeting } = require('../../models');
 
-// get all users
+// get all the meetings 
 router.get('/', (req, res) => {
-  User.findAll({
-    attributes: { exclude: ['password'] }
+  Meetings.findAll({
+    attributes: ['date', 'start', 'end', 'orgainizer_id'],
   })
-    .then(dbUserData => res.json(dbUserData))
+    .then(dbMeetingData => res.json(dbMeetingData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
-// get a user by ID
+// get route to FIND ONE USER AND RETURN THEIR MEETINGS
+// THIS ISN'T GOING TO WORK BECAUSE THEY CAN HAVE MORE THAN ONE MEETING
+// SO YOU NEED A MEETING FINDALL
+// called from xxxx
 router.get('/:id', (req, res) => {
   User.findOne({
-    attributes: { exclude: ['password'] },
+    attributes: ['firstname', 'lastname' ],
     where: {
       id: req.params.id
     },
-    // include: [
-    //   {
-    //   //include model request and attendee to see what meetings are signed up
-    //   },
-    //   {
-    //     model: Comment,
-    //     attributes: ['id', 'comment_text', 'created_at'],
-    //     include: {
-    //       model: Post,
-    //       attributes: ['title']
-    //     }
-    //   }
-    // ]
+    include: [
+      {
+        model: Meeting,
+        attributes: ['date', 'start', 'end', 'organizer_id'],
+      }
+    ]
   })
-    .then(dbUserData => {
-      if (!dbUserData) {
-        res.status(404).json({ message: `No user found with id: ${req.params.id}`});
+    .then(dbMeetingData => {
+      if (!dbMeetingData) {
+        res.status(404).json({ message: `No meeting found with id: ${req.params.id}`});
         return;
       }
-      res.json(dbUserData);
+      res.json(dbMeetingData);
     })
     .catch(err => {
       console.log(err);
@@ -47,94 +43,44 @@ router.get('/:id', (req, res) => {
     });
 });
 
-//post route to signup new user
-// called from public/javascript/signup.js
-router.post('/', (req, res) => {
-  // expects {firstname 'Adrian', lastname 'Barnes' email: 'abarnesXYZ@gmail.com', password: 'password1234'}
-  User.create({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    password: req.body.password
+//post route to CREATE A NEW MEETING
+// called from xxxx
+// start and end are integers between 9-17
+// indicating the office day
+router.post('/', withAuth, (req, res) => {
+  Meeting.create({
+    date: req.body.date,
+    start: req.body.start,
+    end: req.body.end,
+    organizer_id: req.body.organizer_id
   })
-    .then(dbUserData => {
-
-      console.log(`post user.create reports: ${dbUserData}`);
-
-      req.session.save(() => {
-        req.session.user_id = dbUserData.id;
-        req.session.firstname = dbUserData.firstname;
-        req.session.lastname = dbUserData.lastname;
-        req.session.loggedIn = true;
-  
-        res.json(dbUserData);
+    .then(dbMeetingData => {
+        res.json(dbMeetingData);
       });
     })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
-});
 
-//login existing user
-router.post('/login', (req, res) => {
-  // expects {email: 'abnormal@gmail.com', password: 'password1234'}
-  User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(dbUserData => {
-    if (!dbUserData) {
-      res.status(400).json({ message: `No user found with email: ${req.body.email}` });
-      return;
-    }
-
-    const validPassword = dbUserData.checkPassword(req.body.password);
-
-    if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect password!' });
-      return;
-    }
-
-    req.session.save(() => {
-      req.session.user_id = dbUserData.id;
-      req.session.id = dbUserData.id;
-      req.session.firstname = dbUserData.firstname;
-      req.session.lastname = dbUserData.lastname;
-      req.session.loggedIn = true;
-  
-      res.json({ user: dbUserData, message: 'You are now logged in!' });
-    });
-  });
-});
-
-router.post('/logout', (req, res) => {
-  if (req.session.loggedIn) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  }
-  else {
-    res.status(404).end();
-  }
-});
-
+  // UPDATE a meeting using its ID
+  // the req.body can contain 'date',
+  // 'start', 'end', and/or 'organizer_id'
 router.put('/:id', (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
 
   // pass in req.body instead to only update what's passed through
-  User.update(req.body, {
+  Meeting.update(req.body, {
     individualHooks: true,
     where: {
       id: req.params.id
     }
   })
-    .then(dbUserData => {
-      if (!dbUserData) {
-        res.status(404).json({ message: `No user found with id: ${req.params.id}` });
+    .then(dbMeetingData => {
+      if (!dbMeetingData) {
+        res.status(404).json({ message: `No meeting found with id: ${req.params.id}` });
         return;
       }
-      res.json(dbUserData);
+      res.json(dbMeetingData);
     })
     .catch(err => {
       console.log(err);
@@ -142,18 +88,21 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// DELETE A MEETING: It's not entirely clear how
+// this propagates to people who are enrolled!
+// xxxxxxxxxxxxxxxxxxx
 router.delete('/:id', (req, res) => {
-  User.destroy({
+  Meeting.destroy({
     where: {
       id: req.params.id
     }
   })
-    .then(dbUserData => {
-      if (!dbUserData) {
-        res.status(404).json({ message: `No user found with id: ${req.params.id}` });
+    .then(dbMeetingData => {
+      if (!dbMeetingData) {
+        res.status(404).json({ message: `No meeting found with id: ${req.params.id}` });
         return;
       }
-      res.json(dbUserData);
+      res.json(dbMeetingData);
     })
     .catch(err => {
       console.log(err);

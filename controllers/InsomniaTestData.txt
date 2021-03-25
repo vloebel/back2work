@@ -1,0 +1,46 @@
+// This is just some test data to cut and paste into insomnia
+// We can set up proper seeds when I know how to put in a date
+
+// 5 Users post one at a time
+{
+  "firstname": "Harry",
+  "lastname": "Barry",
+  "email": "HarryBarry@fuzzzz.com",
+  "password": "1234",
+  "available": "MTWRF"
+}
+{
+  "firstname": "Lori",
+  "lastname": "Chang",
+  "email": "LChang491@fuzzzz.com",
+  "password": "1234",
+  "available": "MTWRF"
+}
+{
+  "firstname": "Emir",
+  "lastname": "Abacı",
+  "email": "Emir9Abaci@fuzzzz.com",
+  "password": "1234",
+  "available": "MTWRF"
+}
+{
+  "firstname": "John",
+  "lastname": "Button",
+  "email": "buttonupjohn@fuzzzz.com",
+  "password": "1234",
+  "available": "MTWRF"
+}
+{
+  "firstname": "Tash",
+  "lastname": "Frankel",
+  "email": "TashTeeFrankel@fuzzzz.com",
+  "password": "1234",
+  "available": "MTWRF"
+}
+{
+  "firstname": "Vicky",
+  "lastname": "Loebel",
+  "email": "vloebel@hotmail.com",
+  "password": "1234",
+  "available": "MWF"
+}

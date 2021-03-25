@@ -4,6 +4,6 @@ const userRoutes = require('./user-routes.js');
 const meetingRoutes = require('./meeting-routes.js');
 
 router.use('/users', userRoutes);
-router.use('/meeting', meetingRoutes);
+router.use('/meetings', meetingRoutes);
 
 module.exports = router;

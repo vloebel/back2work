@@ -21,7 +21,8 @@ Meeting.init(
     // there's no linked calendar
     date: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: Now
     },
     start: {
       type: DataTypes.INTEGER,

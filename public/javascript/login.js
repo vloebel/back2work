@@ -1,3 +1,8 @@
+// Triggered by event listener on login form
+// gets the value of email and password from the form
+// sends a post request to 'api/users/login
+// and then brings up dashbord if login succeeds
+
 async function loginFormHandler(event) {
   event.preventDefault();
 
