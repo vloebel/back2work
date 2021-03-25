@@ -52,12 +52,12 @@ router.get('/:id',  (req, res) => {
 // called from xxxx
 // start and end are integers between 9-17
 // indicating the office day
-router.post('/:id', (req, res) => {
+router.post('/', (req, res) => {
   Meeting.create({
     date: req.body.date,
     start: req.body.start,
     end: req.body.end,
-    organizer_id: req.params.id
+    organizer_id: req.body.organizer_id
   })
     .then(dbMeetingData => {
       res.json(dbMeetingData);
