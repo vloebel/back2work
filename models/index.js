@@ -16,11 +16,11 @@ Request.belongsTo(User, {
 
 
 Request.hasMany(Attendee, {
-  foreignKey: 'request_id'
+  foreignKey: 'meeting_id'
 });
 
 Attendee.belongsTo(Request, {
-  foreignKey: 'request_id',
+  foreignKey: 'meeting_id',
   onDelete: 'SET NULL'
 });
 

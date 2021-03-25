@@ -19,22 +19,14 @@ Attendee.init(
       primaryKey: true,
       autoIncrement: true
     },
-    request_id: {
+    meeting_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'request',
         key: 'id'
       }
     },
-    // vll: I don't think this is a fk on user-
-    // it is a reference to that table, but it
-    // doesn't BELONG to it. (?)
-    // BUT is there a way to put the constraint?
-    // removed:
-      // references: {
-      //   model: 'users',
-      //   key: 'id'
-      // }
+    
     user_id: {
       type: DataTypes.INTEGER,
       allowNull:false,

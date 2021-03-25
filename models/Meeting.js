@@ -3,13 +3,13 @@ const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
 
-class Request extends Model{}
+class Meeting extends Model{}
 
-// create fields/columns for Request model
+// create fields/columns for meeting model
 // points to the employee who requsted the mtg
-// one employee can have many requests. each
-//request belongs to ONE employee
-Request.init(
+// one employee can have many meetings. each
+//meeting belongs to ONE employee
+Meeting.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -34,7 +34,7 @@ Request.init(
     },
     //vll: sequelize docs say to use the tablename (plural)
     //in foreign keys rather than the (singular) Model name
-    //every mtg request has one organizer
+    //every mtg meeting has one organizer
     organizer: {
       type: DataTypes.INTEGER,
       references: {
@@ -44,7 +44,7 @@ Request.init(
     },
     // The attendees have a fk back here so
     // we don't need to point the other way
-    // one request has many attendees
+    // one meeting has many attendees
     // invited: {
     //   type: DataTypes.STRING,
     //   references: {
@@ -58,8 +58,8 @@ Request.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'request'
+    modelName: 'meeting'
   }
 );
 
-module.exports = Request;
+module.exports = Meeting;
