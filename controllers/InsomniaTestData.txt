@@ -1,7 +1,7 @@
 // This is just some test data to cut and paste into insomnia
 // We can set up proper seeds when I know how to put in a date
 
-// 5 Users post one at a time
+// USERS - post one at a time
 {
   "firstname": "Harry",
   "lastname": "Barry",
@@ -43,4 +43,11 @@
   "email": "vloebel@hotmail.com",
   "password": "1234",
   "available": "MWF"
+}
+// MEETINGS - post one at a time
+{
+  "date": "2021-03-29",
+  "start": "9",
+  "end": "10",
+  "organizer_id": "1"
 }

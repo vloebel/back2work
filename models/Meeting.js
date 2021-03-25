@@ -2,6 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
+
 class Meeting extends Model{}
 
 // create fields/columns for meeting model
@@ -22,7 +23,6 @@ Meeting.init(
     date: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: Now
     },
     start: {
       type: DataTypes.INTEGER,

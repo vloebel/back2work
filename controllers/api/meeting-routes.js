@@ -1,10 +1,15 @@
 const router = require('express').Router();
-const { Meeting } = require('../../models');
+const sequelize = require('../../config/connection');
+const { User, Meeting } = require('../../models');
+const withAuth = require('../../utils/auth');
+
 
 // get all the meetings 
+// vll: after testing add withAuth - not sure insomnia 
+// works otherwise
 router.get('/', (req, res) => {
-  Meetings.findAll({
-    attributes: ['date', 'start', 'end', 'orgainizer_id'],
+  Meeting.findAll({
+    attributes: ['date', 'start', 'end', 'organizer_id'],
   })
     .then(dbMeetingData => res.json(dbMeetingData))
     .catch(err => {
@@ -17,7 +22,7 @@ router.get('/', (req, res) => {
 // THIS ISN'T GOING TO WORK BECAUSE THEY CAN HAVE MORE THAN ONE MEETING
 // SO YOU NEED A MEETING FINDALL
 // called from xxxx
-router.get('/:id', (req, res) => {
+router.get('/:id',  (req, res) => {
   User.findOne({
     attributes: ['firstname', 'lastname' ],
     where: {
@@ -47,25 +52,26 @@ router.get('/:id', (req, res) => {
 // called from xxxx
 // start and end are integers between 9-17
 // indicating the office day
-router.post('/', withAuth, (req, res) => {
+router.post('/:id', (req, res) => {
   Meeting.create({
     date: req.body.date,
     start: req.body.start,
     end: req.body.end,
-    organizer_id: req.body.organizer_id
+    organizer_id: req.params.id
   })
     .then(dbMeetingData => {
-        res.json(dbMeetingData);
-      });
+      res.json(dbMeetingData);
     })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
+});
 
   // UPDATE a meeting using its ID
   // the req.body can contain 'date',
   // 'start', 'end', and/or 'organizer_id'
+
 router.put('/:id', (req, res) => {
 
   // pass in req.body instead to only update what's passed through
