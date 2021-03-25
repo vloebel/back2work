@@ -2,7 +2,6 @@ const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
-
 class Meeting extends Model{}
 
 // create fields/columns for meeting model
@@ -32,26 +31,15 @@ Meeting.init(
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    //vll: sequelize docs say to use the tablename (plural)
-    //in foreign keys rather than the (singular) Model name
-    //every mtg meeting has one organizer
-    organizer: {
+ 
+    organizer_id: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: 'user',
         key: 'id'
       }
     },
-    // The attendees have a fk back here so
-    // we don't need to point the other way
-    // one meeting has many attendees
-    // invited: {
-    //   type: DataTypes.STRING,
-    //   references: {
-    //     model: 'attendee',
-    //     key: 'id'
-    //   }
-    // },
   },
   {
     sequelize,
@@ -60,6 +48,6 @@ Meeting.init(
     underscored: true,
     modelName: 'meeting'
   }
-);
+  );
 
 module.exports = Meeting;
