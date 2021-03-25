@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, QueryInterface } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
@@ -17,11 +17,8 @@ Meeting.init(
       primaryKey: true,
       autoIncrement: true
     },
-    // vll:sequelize type would be DATEONLY 
-    // but we might want to use MWTRF if
-    // there's no linked calendar
-    date: {
-      type: DataTypes.STRING,
+      date: {
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     start: {
@@ -30,9 +27,17 @@ Meeting.init(
     },
     end: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
- 
+    meeting_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      devaultValue: 'TBD'
+    },
+    topic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     organizer_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -52,3 +57,4 @@ Meeting.init(
   );
 
 module.exports = Meeting;
+QueryInterface

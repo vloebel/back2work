@@ -9,7 +9,7 @@ const withAuth = require('../../utils/auth');
 // works otherwise
 router.get('/', (req, res) => {
   Meeting.findAll({
-    attributes: ['date', 'start', 'end', 'organizer_id'],
+    attributes: ['date', 'start', 'end', 'meeting_name', 'topic', 'organizer_id'],
   })
     .then(dbMeetingData => res.json(dbMeetingData))
     .catch(err => {
