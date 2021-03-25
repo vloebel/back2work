@@ -1,0 +1,149 @@
+// This is just something to cut and paste into inquirer
+// USER
+[{
+  "firstname": "Rivi",
+  "lastname": "Uzielli",
+  "email": "ruzielli0@comsenz.com",
+  "password": "W2EGqvtzQfXk"
+}, {
+  "firstname": "Jone",
+  "lastname": "Langrish",
+  "email": "jlangrish1@ameblo.jp",
+  "password": "WdyVnn04Ua2"
+}, {
+  "firstname": "Dewie",
+  "lastname": "Walkden",
+  "email": "dwalkden2@mayoclinic.com",
+  "password": "JpBukbEUvlB"
+}, {
+  "firstname": "Early",
+  "lastname": "Guesford",
+  "email": "eguesford3@wufoo.com",
+  "password": "ahCxRWZd"
+}, {
+  "firstname": "Wilbert",
+  "lastname": "Claffey",
+  "email": "wclaffey4@phpbb.com",
+  "password": "sxZfC06m9"
+}, {
+  "firstname": "Emilio",
+  "lastname": "Dudderidge",
+  "email": "edudderidge5@chron.com",
+  "password": "tZJUdiSXM"
+}, {
+  "firstname": "Gene",
+  "lastname": "Withey",
+  "email": "gwithey6@wordpress.com",
+  "password": "9Z7ibdx"
+}, {
+  "firstname": "Stephie",
+  "lastname": "Mordanti",
+  "email": "smordanti7@deviantart.com",
+  "password": "DV5IIm1"
+}, {
+  "firstname": "Isaac",
+  "lastname": "Barthel",
+  "email": "ibarthel8@arstechnica.com",
+  "password": "zvVUzLB40mR"
+}, {
+  "firstname": "Ramon",
+  "lastname": "Jasper",
+  "email": "rjasper9@nationalgeographic.com",
+  "password": "KI5opg"
+}]
+// REQUEST
+
+[{
+  "date": "2/14/2021",
+  "start": 10,
+  "end": 11,
+  "organizer": 4
+}, {
+  "date": "4/6/2020",
+  "start": 11,
+  "end": 13,
+  "organizer": 5
+}, {
+  "date": "7/26/2020",
+  "start": 12,
+  "end": 14,
+  "organizer": 9
+}, {
+  "date": "1/11/2021",
+  "start": 10,
+  "end": 12,
+  "organizer": 5
+}, {
+  "date": "1/18/2021",
+  "start": 11,
+  "end": 14,
+  "organizer": 4
+}, {
+  "date": "7/23/2020",
+  "start": 12,
+  "end": 13,
+  "organizer": 6
+}, {
+  "date": "10/28/2020",
+  "start": 9,
+  "end": 10,
+  "organizer": 9
+}, {
+  "date": "3/1/2021",
+  "start": 14,
+  "end": 15,
+  "organizer": 9
+}, {
+  "date": "7/29/2020",
+  "start": 15,
+  "end": 16,
+  "organizer": 4
+}, {
+  "date": "7/7/2020",
+  "start": 9,
+  "end": 10,
+  "organizer": 4
+}]
+
+//ATTENDEE
+[{
+  "meeting_id": 2,
+  "user_id": 1,
+  "accepted": false
+}, {
+  "meeting_id": 1,
+  "user_id": 2,
+  "accepted": false
+}, {
+  "meeting_id": 3,
+  "user_id": 3,
+  "accepted": false
+}, {
+  "meeting_id": 1,
+  "user_id": 4,
+  "accepted": false
+}, {
+  "meeting_id": 2,
+  "user_id": 5,
+  "accepted": false
+}, {
+  "meeting_id": 3,
+  "user_id": 6,
+  "accepted": true
+}, {
+  "meeting_id": 3,
+  "user_id": 7,
+  "accepted": false
+}, {
+  "meeting_id": 1,
+  "user_id": 8,
+  "accepted": true
+}, {
+  "meeting_id": 1,
+  "user_id": 9,
+  "accepted": true
+}, {
+  "meeting_id": 3,
+  "user_id": 10,
+  "accepted": false
+}]

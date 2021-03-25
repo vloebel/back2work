@@ -1,27 +1,29 @@
 // import all models
 const User = require('./User');
-const Request = require('./Request')
-const Attendee = require('./Attendee')
+const Meeting = require('./Meeting')
+const Participant = require('./Participant')
 
 
-// create associations
-User.hasMany(Request, {
-  foreignKey: 'user_id'
+// first two are organizer 
+// if user is deleted it will the meeting user to null
+User.hasMany(Meeting, {
+  foreignKey: 'organizer_id',
+  onDelete: 'SET NULL'
 });
 
-Request.belongsTo(User, {
+Meeting.belongsTo(User, {
+  foreignKey: 'organizer_id',
+});
+
+////////////////
+User.belongsToMany(Meeting, {
+  through: Participant,
   foreignKey: 'user_id',
-  onDelete: 'SET NULL'
 });
 
-
-Request.hasMany(Attendee, {
-  foreignKey: 'request_id'
-});
-
-Attendee.belongsTo(Request, {
-  foreignKey: 'request_id',
-  onDelete: 'SET NULL'
+Meeting.belongsToMany(User, {
+  through: Participant,
+  foreignKey: 'meeting_id',
 });
 
 
@@ -29,6 +31,4 @@ Attendee.belongsTo(Request, {
 
 
 
-
-
-module.exports = { User, Request, Attendee  };
+module.exports = { User, Meeting, Participant  };
