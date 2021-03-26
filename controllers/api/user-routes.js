@@ -1,10 +1,25 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Meeting } = require('../../models');
 
-// get all users
+
+////////////////////////////////////////
+//  THESE ARE THE USER ROUTES
+// get '/' :    (get/api/users)      REQUEST ALL users 
+// get '/:id    (get/api/users/:id   REQUEST existing user by id
+// post '/'     (post/api/users)     CREATE a new user
+// post '/login'(api/users/login)    REQUEST user by email
+// post '/logout' (api/users/logout) LOGOUT current user
+// put '/:id'   (put/api/users/:id)  UPDATES user that matches id
+// delete '/:id'(delete/api/users/:id) DELETE user by id
+
+
+/////////////////////////////////////////////////////////
+
+// GET ALL USERS
+// route: get/api/users
 router.get('/', (req, res) => {
   User.findAll({
-    attributes: { exclude: ['password'] }
+    attributes:['id','firstname','lastname','available'],
   })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -13,14 +28,14 @@ router.get('/', (req, res) => {
     });
 });
 
-// get a user by ID
-// use a meeting route to get the user's meetings by ID
+// GET USER BY ID
+// (Use meeting routes to get meetings by user ID)
 router.get('/:id', (req, res) => {
   User.findOne({
-    attributes: { exclude: ['password'] },
     where: {
       id: req.params.id
     },
+    attributes: { exclude: ['password'] },
   })
     .then(dbUserData => {
       if (!dbUserData) {
@@ -35,8 +50,8 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// post route /api/users
-// to ADD NEW USER
+// 
+// ADD NEW USER
 // called from public/javascript/signup.js
 // 
 router.post('/', (req, res) => {
@@ -86,7 +101,6 @@ router.post('/login', (req, res) => {
 
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
-      req.session.id = dbUserData.id;
       req.session.firstname = dbUserData.firstname;
       req.session.lastname = dbUserData.lastname;
       req.session.loggedIn = true;

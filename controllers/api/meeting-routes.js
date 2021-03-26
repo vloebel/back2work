@@ -3,14 +3,38 @@ const sequelize = require('../../config/connection');
 const { User, Meeting } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+////////////////////////////////////////
+//  THESE ARE THE MEETING ROUTES
+// NOTE that some changes like withAuth must be made
+//  to move from insomnia to a front end
+// get '/' :    (get/api/meetings)      REQUEST ALL users 
+// get '/'  get the meetings by user session id
+// get '/:id    (get/api/meetings/:id  
+//    REQUEST all meeting by where :id is the organizer
+// post '/'     (post/api/meetings)     CREATE a new meeting
+// put '/:id'   (put/api/meetings/:id)  UPDATES user that matches id
+// delete '/:id'(delete/api/meetings/:id) DELETE meeting by its id
 
-// get all the meetings 
-// vll: after testing add withAuth - not sure insomnia 
-// works otherwise
+
+/////////////////////////////////////////////////////////
+
+
+
+// GET ALL MEETINGS 
+// vll: need to PUT WITHAUTH BACK IN
+// after inquirer testing is done  
+
+// ROUTE: get/api/meetings
 router.get('/', (req, res) => {
   Meeting.findAll({
-    attributes: ['date', 'start', 'end', 'meeting_name', 'topic', 'organizer_id'],
-  })
+    attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
+    ],
+    include: {
+      model: User,
+      attributes: ['id', 'firstname', 'lastname']
+    }
+  }
+  )
     .then(dbMeetingData => res.json(dbMeetingData))
     .catch(err => {
       console.log(err);
@@ -18,46 +42,75 @@ router.get('/', (req, res) => {
     });
 });
 
-// get route to FIND ONE USER AND RETURN THEIR MEETINGS
-// THIS ISN'T GOING TO WORK BECAUSE THEY CAN HAVE MORE THAN ONE MEETING
-// SO YOU NEED A MEETING FINDALL
-// called from xxxx
-router.get('/:id',  (req, res) => {
-  User.findOne({
-    attributes: ['firstname', 'lastname' ],
+// GET MEETINGS BY ORGANIZER ID 
+// For testing: user ID in req.params  
+// THIS will have to change to the session.user_id
+//(but how does it knwo a get all from a get by session ID?)
+//  BECAUSE we will eventually need to pass in a
+//  meeing :id to display a single meeting
+// vll: need to PUT WITHAUTH BACK IN
+
+// ROUTE: get/api/meetings/:id
+router.get('/:id', (req, res) => {
+  Meeting.findAll({
     where: {
-      id: req.params.id
+      organizer_id: req.params.id
     },
-    include: [
-      {
-        model: Meeting,
-        attributes: ['date', 'start', 'end', 'organizer_id'],
-      }
-    ]
-  })
-    .then(dbMeetingData => {
-      if (!dbMeetingData) {
-        res.status(404).json({ message: `No meeting found with id: ${req.params.id}`});
-        return;
-      }
-      res.json(dbMeetingData);
-    })
+    attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
+    ],
+    include: {
+      model: User,
+      attributes: ['id', 'firstname', 'lastname']
+    }
+  }
+  )
+    .then(dbMeetingData => res.json(dbMeetingData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
+// THIS IS CURRENTLY COMMENTED OUT BECAUSE
+// USER ID is being passed in for testing
+// but eventually it will be the meeting id
+// don't forget withAuth
+
+// GET MEETING BY MEETING ID
+// Returns one meeting and the person who organized it
+// ROUTE: get/api/meetings/:id
+// router.get('/:id', (req, res) => {
+//   Meeting.findOne({
+//     where: {
+//       id: req.params.id
+//     },
+//     attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
+//     ],
+//     include: {
+//       model: User,
+//       attributes: ['id', 'firstname', 'lastname']
+//     }
+//   })
+//     .then(dbMeetingData => res.json(dbMeetingData))
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
+
+
 //post route to CREATE A NEW MEETING
 // called from xxxx
 // start and end are integers between 9-17
-// indicating the office day
+// indicating office hours
 router.post('/', (req, res) => {
   Meeting.create({
     date: req.body.date,
     start: req.body.start,
     end: req.body.end,
-    organizer_id: req.body.organizer_id
+    organizer_id: req.body.organizer_id,
+    name: req.body.name,
+    topic:req.body.topic
   })
     .then(dbMeetingData => {
       res.json(dbMeetingData);
@@ -74,7 +127,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
 
-  // pass in req.body instead to only update what's passed through
+  // pass in req.body to only update what's passed through
   Meeting.update(req.body, {
     individualHooks: true,
     where: {
@@ -94,9 +147,8 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// DELETE A MEETING: It's not entirely clear how
-// this propagates to people who are enrolled!
-// xxxxxxxxxxxxxxxxxxx
+// DELETE A MEETING:
+
 router.delete('/:id', (req, res) => {
   Meeting.destroy({
     where: {
