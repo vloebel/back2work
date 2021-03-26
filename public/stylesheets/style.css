@@ -13,17 +13,18 @@
 }
 
 * {
-  box-sizing: border-box;
+  box-sizing: content-box;
 }
 
-a {
+a,
+p {
   color: inherit;
+  font: inherit;
 }
 
 body,
 html {
   height: 100%;
-  padding: 0;
   margin: 0;
   color: var(--dark-gray);
   font-family: "Montserrat", sans-serif;
@@ -40,18 +41,31 @@ h1 {
   text-align: center;
 }
 
-nav {
+.nav-wrapper {
   background-color: #7c878eff;
   font-family: "Montserrat", sans-serif;
-  padding: 0;
+  margin-right: 5px;
+  margin-left: auto;
 }
 
 .page-footer {
   background-color: #7c878eff;
   font-family: "Montserrat", sans-serif;
-  padding: 20px;
+}ç
+
+.btn {
+  background-color: #c4752dff !important;
 }
 
+/*
 .circular-img {
-  border-radius: 50%;
+  width: 50%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+*/

@@ -25,33 +25,37 @@
 </head>
 
 <body>
-  <div>
-    <header>
-      <nav class="nav-wrapper">
-        <div>
-          <a href="/dashboard" class="brand-logo right">Your Dashboard<i class="material-icons">home</i></a>
-          {{#if loggedIn}}
-          <button id="logout">Logout</button>
-          {{else}}
-          {{!-- if not logged in, they can click dashboard, but it
+  <header>
+    <nav class="nav-wrapper">
+      <div>
+        <a href="/dashboard" class="brand-logo right">Your Dashboard <i class="material-icons">dock</i></a>
+        {{#if loggedIn}}
+        <button id="logout">Logout</button>
+        {{else}}
+        {{!-- if not logged in, they can click dashboard, but it
           takes them to the login page --}}
-          <div class="left hide-on-med-and-down"><a href="/login">Login</a></div>
-          {{/if}}
-        </div>
-      </nav>
-  </div>
-   </header>
-  <div>
-    <div class="circular-img"><img src="/assets/office-space.jpg" alt="Office space" width="25%" height="25%"></div>
-    <h1> <a href="/">BACK 2 WORK</a> </h1>
+        <a href="/login">Login</a>
+        {{/if}}
+      </div>
+    </nav>
+  </header>
+
+  <!-- Header + body -->
+  <div class="container">
+    <!--<img class="circular-img" src="/assets/office-space.jpg" alt="Office space" < /> -->
+     <h1> <a href="/">BACK 2 WORK</a> </h1>
     <p class="subhead"> Meeting with your colleagues made easy.</p>
-    <h3>This is main.handlebars talking</h3>
+    <!--<h3>This is main.handlebars talking</h3>-->
+    <main>
+      {{{ body }}}
+    </main>
   </div>
-  <main class="container">
-    {{{ body }}}
-  </main>
-  <footer class="page-footer">
-    Working together safely!
+
+  <!-- Footer -->
+  <footer class="page-footer center">
+    <i class="material-icons small">group</i>
+    <p>Staying organized together!</p>
+    <p>© Back2Work 2021</p>
   </footer>
   </div>
 
