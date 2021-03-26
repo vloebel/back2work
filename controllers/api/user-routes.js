@@ -4,18 +4,24 @@ const { User, Meeting } = require('../../models');
 
 ////////////////////////////////////////
 //  THESE ARE THE USER ROUTES
-// get '/' :    (get/api/users)      REQUEST ALL users 
-// get '/:id    (get/api/users/:id   REQUEST existing user by id
-// post '/'     (post/api/users)     CREATE a new user
-// post '/login'(api/users/login)    REQUEST user by email
-// post '/logout' (api/users/logout) LOGOUT current user
-// put '/:id'   (put/api/users/:id)  UPDATES user that matches id
-// delete '/:id'(delete/api/users/:id) DELETE user by id
-
+// (UR1) FIND ALL USERS 
+//       get api/users
+// (UR2) FIND USER by id
+//       get /api/user/:id 
+// (UR3) LOGIN user 
+//       post api/users/login      
+// (UR4) LOGOUT USER
+//       post api/users/logout  
+// (UR5) CREATE USER 
+//       post  api/users    
+// (UR6) UPDATE USER by user id
+//       put /api/users/:id
+// (UR7) DELETE USER by its ID
+//       delete /api/users/:id
 
 /////////////////////////////////////////////////////////
 
-// GET ALL USERS
+// UR1 find ALL USERS
 // route: get/api/users
 router.get('/', (req, res) => {
   User.findAll({
@@ -28,8 +34,11 @@ router.get('/', (req, res) => {
     });
 });
 
-// GET USER BY ID
+// UR2 FIND USER BY ID
 // (Use meeting routes to get meetings by user ID)
+// returns all attributes except password
+// get /api/users/id
+
 router.get('/:id', (req, res) => {
   User.findOne({
     where: {
@@ -50,10 +59,65 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// 
-// ADD NEW USER
+
+// UR3 LOGIN USER
+// login existing user
+// called from login.js
+// post route /api/users/login
+
+router.post('/login', (req, res) => {
+  // expects {email: 'abnormal@gmail.com', password: 'pwdd'}
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  }).then(dbUserData => {
+    if (!dbUserData) {
+      res.status(400).json({ message: `No user found with email: ${req.body.email}` });
+      return;
+    }
+    const validPassword = dbUserData.checkPassword(req.body.password);
+
+    if (!validPassword) {
+      res.status(400).json({ message: 'Incorrect password!' });
+      return;
+    }
+
+    req.session.save(() => {
+      req.session.user_id = dbUserData.id;
+      req.session.firstname = dbUserData.firstname;
+      req.session.lastname = dbUserData.lastname;
+      req.session.loggedIn = true;
+  
+      res.json({ user: dbUserData, message: 'You are now logged in!' });
+    });
+  });
+});
+
+////////////////////////////////////////////
+// UR4 LOGOUT  USER
+// logs user out and ends session
+// post api/users/logout
+
+router.post('/logout', (req, res) => {
+  if (req.session.loggedIn) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  }
+  else {
+    res.status(404).end();
+  }
+});
+
+
+
+////////////////////////////////////////////
+// UR5 CREATE NEW USER
 // called from public/javascript/signup.js
-// 
+// automatically logs user in at same time
+// post api/users
+
 router.post('/', (req, res) => {
   User.create({
     firstname: req.body.firstname,
@@ -76,53 +140,14 @@ router.post('/', (req, res) => {
       res.status(500).json(err);
     });
 });
-
-// post route /api/users/login
-// login existing user
-// called from login.js
-router.post('/login', (req, res) => {
-  // expects {email: 'abnormal@gmail.com', password: 'pwdd'}
-  User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(dbUserData => {
-    if (!dbUserData) {
-      res.status(400).json({ message: `No user found with email: ${req.body.email}` });
-      return;
-    }
-
-    const validPassword = dbUserData.checkPassword(req.body.password);
-
-    if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect password!' });
-      return;
-    }
-
-    req.session.save(() => {
-      req.session.user_id = dbUserData.id;
-      req.session.firstname = dbUserData.firstname;
-      req.session.lastname = dbUserData.lastname;
-      req.session.loggedIn = true;
-  
-      res.json({ user: dbUserData, message: 'You are now logged in!' });
-    });
-  });
-});
-
-router.post('/logout', (req, res) => {
-  if (req.session.loggedIn) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  }
-  else {
-    res.status(404).end();
-  }
-});
+////////////////////////////////////////////
+// UR6 UPDATE USER by ID
+// updates information as specified
+// you don't have to send the whole user, just the
+// name:value to update
+// put /api/users/:id
 
 router.put('/:id', (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
 
   // pass in req.body instead to only update what's passed through
   User.update(req.body, {
@@ -143,6 +168,11 @@ router.put('/:id', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+////////////////////////////////////////////
+// UR6 DELETE USER by ID
+// deletes the specified user
+// route: delete /api/users/:id
 
 router.delete('/:id', (req, res) => {
   User.destroy({

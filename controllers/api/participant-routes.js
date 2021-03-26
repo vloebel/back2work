@@ -4,24 +4,23 @@ const { User, Meeting } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 ////////////////////////////////////////
-//  THESE ARE THE MEETING ROUTES
-// NOTE that some changes like withAuth must be made
-//  to move from insomnia to a front end
-// (MR1) FIND ALL MEETINGS 
-//       get api/meetings
-// (MR2) FIND ALL MEETINGS by a specified ORGANIZER
-//       get /api/meetings/userid/:id 
-// (MR3) FIND ONE MEETING by its meeting id 
-//       get /api/meetings/id
-// (MR4) CREATE NEW MEETING
-//       post  api/meetings
-// (MR5) UPDATE MEETING by its meeting id
-//       put  api/meetings/id
-// (MR6) DELETE MEETING by its ID
-//       delete  api/meetings/id
+//  THESE ARE THE PARTICIPANT ROUTES
+//  * Get all the participants based on meeting ID 
+//  * Get all the participants based on organizer ID (?)
+//  * ADD specified array of users (?) to Participant table
+//  * ADD a single user to participant table
+//  * (get all meetings and all participants?)
+//  * Change the Accepted flag for a user
+//  * delete a user from a meeting
+//  * delete a meeting from a user
+
+
+
 /////////////////////////////////////////////////////////
 
-// (MR1) FIND ALL MEETINGS 
+
+
+// GET ALL MEETINGS 
 // vll: need to PUT WITHAUTH BACK IN
 // after inquirer testing is done  
 
@@ -43,11 +42,16 @@ router.get('/', (req, res) => {
     });
 });
 
-// (MR2) FIND MEETINGS BY ORGANIZER ID 
+// GET MEETINGS BY ORGANIZER ID 
+// For testing: user ID in req.params  
+// THIS will have to change to the session.user_id
+//(but how does it knwo a get all from a get by session ID?)
+//  BECAUSE we will eventually need to pass in a
+//  meeing :id to display a single meeting
 // vll: need to PUT WITHAUTH BACK IN
-// ROUTE: get/api/meetings/userid/:id
 
-router.get('/userid/:id', (req, res) => {
+// ROUTE: get/api/meetings/:id
+router.get('/:id', (req, res) => {
   Meeting.findAll({
     where: {
       organizer_id: req.params.id
@@ -69,44 +73,46 @@ router.get('/userid/:id', (req, res) => {
     });
 });
 
-// (MR3) FIND MEETING BY MEETING ID 
-// get /api/meetings/id
+// THIS IS CURRENTLY COMMENTED OUT BECAUSE
+// USER ID is being passed in for testing
+// but eventually it will be the meeting id
+// don't forget withAuth
 
-router.get('/:id', (req, res) => {
-  Meeting.findOne({
-    where: {
-      id: req.params.id
-    },
-    attributes: ['id', 'date',
-      'start', 'end',
-      'meeting_name', 'topic'
-    ],
-    include: {
-      model: User,
-      attributes: ['id', 'firstname', 'lastname']
-    }
-  }
-  )
-    .then(dbMeetingData => res.json(dbMeetingData))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
+// GET MEETING BY MEETING ID
+// Returns one meeting and the person who organized it
+// ROUTE: get/api/meetings/:id
+// router.get('/:id', (req, res) => {
+//   Meeting.findOne({
+//     where: {
+//       id: req.params.id
+//     },
+//     attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
+//     ],
+//     include: {
+//       model: User,
+//       attributes: ['id', 'firstname', 'lastname']
+//     }
+//   })
+//     .then(dbMeetingData => res.json(dbMeetingData))
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
 
 
-// (MR4) CREATE  MEETING
+//post route to CREATE A NEW MEETING
 // called from xxxx
-// start and end are integers between 9-17 (indicating office hours)
-// 
+// start and end are integers between 9-17
+// indicating office hours
 router.post('/', (req, res) => {
   Meeting.create({
     date: req.body.date,
     start: req.body.start,
     end: req.body.end,
-    meeting_name: req.body.meeting_name,
-    topic:req.body.topic,
-    organizer_id: req.body.organizer_id
+    organizer_id: req.body.organizer_id,
+    name: req.body.name,
+    topic:req.body.topic
   })
     .then(dbMeetingData => {
       res.json(dbMeetingData);
@@ -117,7 +123,7 @@ router.post('/', (req, res) => {
     });
 });
 
-  // (MR5) UPDATE a meeting using its ID
+  // UPDATE a meeting using its ID
   // the req.body can contain 'date',
   // 'start', 'end', and/or 'organizer_id'
 
@@ -143,7 +149,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// (MR6) DELETE A MEETING:
+// DELETE A MEETING:
 
 router.delete('/:id', (req, res) => {
   Meeting.destroy({

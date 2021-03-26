@@ -49,23 +49,23 @@
   "date": "2021-03-27",
   "start": "9",
   "end": "10",
-  "organizer_id": "1"
+  "organizer_id": "1",
+  "meeting_name":"Test and Talk",
+  "topic":"Let's review where we are and talk about extensions."
 }
 {
   "date": "2021-03-29",
   "start": "14",
   "end": "15",
   "organizer_id": "1"
+  "meeting_name":"Project 2 design",
+  "topic":"Review front end layout and interfaces"
 }
 {
   "date": "2021-03-31",
   "start": "13",
   "end": "15",
-  "organizer_id": "2"
-}
-{
-  "date": "2021-04-02",
-  "start": "10",
-  "end": "12",
-  "organizer_id": "1"
-}
+  "organizer_id": "2",
+  "meeting_name":"Presentation Prep",
+  "topic":"Split up tasks for presentation slides"
+
