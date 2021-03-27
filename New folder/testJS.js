@@ -1,13 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.datepicker');
-  var instances = M.Datepicker.init(elems, options);
+//date and time picker
+
+$(function() {
+  $('#dateTime').ejDateTimePicker({
+    interval: 60,
+     width: '180px',
+     value: new Date(),
+  });
 });
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.timepicker');
-  var instances = M.Timepicker.init(elems, options);
-});
-
-
-
