@@ -133,7 +133,10 @@ router.put('/:id', (req, res) => {
   })
     .then(dbMeetingData => {
       if (!dbMeetingData) {
-        res.status(404).json({ message: `No meeting found with id: ${req.params.id}` });
+        res.status(404).json({
+          message:
+            `No meeting found with id: ${req.params.id}`
+        });
         return;
       }
       res.json(dbMeetingData);
