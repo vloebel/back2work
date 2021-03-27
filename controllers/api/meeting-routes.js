@@ -28,7 +28,8 @@ const withAuth = require('../../utils/auth');
 // ROUTE: get/api/meetings
 router.get('/', (req, res) => {
   Meeting.findAll({
-    attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
+    attributes: ['id', 'date', 'start', 'end',
+      'meeting_name', 'topic'
     ],
     include: {
       model: User,

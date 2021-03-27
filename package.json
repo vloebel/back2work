@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "seeds": "node seeds/index.js"
+    "sss": "mysql -u bootcamp -p"
   },
   "author": "",
   "license": "ISC",
