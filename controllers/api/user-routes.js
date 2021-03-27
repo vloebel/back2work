@@ -1,10 +1,31 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Meeting } = require('../../models');
 
-// get all users
+
+////////////////////////////////////////
+//  THESE ARE THE USER ROUTES
+// (UR1) FIND ALL USERS 
+//       get api/users
+// (UR2) FIND USER by id
+//       get /api/user/:id 
+// (UR3) LOGIN user 
+//       post api/users/login      
+// (UR4) LOGOUT USER
+//       post api/users/logout  
+// (UR5) CREATE USER 
+//       post  api/users    
+// (UR6) UPDATE USER by user id
+//       put /api/users/:id
+// (UR7) DELETE USER by its ID
+//       delete /api/users/:id
+
+/////////////////////////////////////////////////////////
+
+// UR1 find ALL USERS
+// route: get/api/users
 router.get('/', (req, res) => {
   User.findAll({
-    attributes: { exclude: ['password'] }
+    attributes:['id','firstname','lastname','available'],
   })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -13,26 +34,17 @@ router.get('/', (req, res) => {
     });
 });
 
-// get a user by ID
+// UR2 FIND USER BY ID
+// (Use meeting routes to get meetings by user ID)
+// returns all attributes except password
+// get /api/users/id
+
 router.get('/:id', (req, res) => {
   User.findOne({
-    attributes: { exclude: ['password'] },
     where: {
       id: req.params.id
     },
-    // include: [
-    //   {
-    //   //include model request and attendee to see what meetings are signed up
-    //   },
-    //   {
-    //     model: Comment,
-    //     attributes: ['id', 'comment_text', 'created_at'],
-    //     include: {
-    //       model: Post,
-    //       attributes: ['title']
-    //     }
-    //   }
-    // ]
+    attributes: { exclude: ['password'] },
   })
     .then(dbUserData => {
       if (!dbUserData) {
@@ -47,38 +59,14 @@ router.get('/:id', (req, res) => {
     });
 });
 
-//post route to signup new user
-// called from public/javascript/signup.js
-router.post('/', (req, res) => {
-  // expects {firstname 'Adrian', lastname 'Barnes' email: 'abarnesXYZ@gmail.com', password: 'password1234'}
-  User.create({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    password: req.body.password
-  })
-    .then(dbUserData => {
 
-      console.log(`post user.create reports: ${dbUserData}`);
+// UR3 LOGIN USER
+// login existing user
+// called from login.js
+// post route /api/users/login
 
-      req.session.save(() => {
-        req.session.user_id = dbUserData.id;
-        req.session.firstname = dbUserData.firstname;
-        req.session.lastname = dbUserData.lastname;
-        req.session.loggedIn = true;
-  
-        res.json(dbUserData);
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
-
-//login existing user
 router.post('/login', (req, res) => {
-  // expects {email: 'abnormal@gmail.com', password: 'password1234'}
+  // expects {email: 'abnormal@gmail.com', password: 'pwdd'}
   User.findOne({
     where: {
       email: req.body.email
@@ -88,7 +76,6 @@ router.post('/login', (req, res) => {
       res.status(400).json({ message: `No user found with email: ${req.body.email}` });
       return;
     }
-
     const validPassword = dbUserData.checkPassword(req.body.password);
 
     if (!validPassword) {
@@ -98,7 +85,6 @@ router.post('/login', (req, res) => {
 
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
-      req.session.id = dbUserData.id;
       req.session.firstname = dbUserData.firstname;
       req.session.lastname = dbUserData.lastname;
       req.session.loggedIn = true;
@@ -107,6 +93,11 @@ router.post('/login', (req, res) => {
     });
   });
 });
+
+////////////////////////////////////////////
+// UR4 LOGOUT  USER
+// logs user out and ends session
+// post api/users/logout
 
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
@@ -119,8 +110,44 @@ router.post('/logout', (req, res) => {
   }
 });
 
+
+
+////////////////////////////////////////////
+// UR5 CREATE NEW USER
+// called from public/javascript/signup.js
+// automatically logs user in at same time
+// post api/users
+
+router.post('/', (req, res) => {
+  User.create({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    password: req.body.password,
+    available: req.body.available
+  })
+    .then(dbUserData => {
+        req.session.save(() => {
+        req.session.user_id = dbUserData.id;
+        req.session.firstname = dbUserData.firstname;
+        req.session.lastname = dbUserData.lastname;
+        req.session.loggedIn = true;
+        res.json(dbUserData);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+////////////////////////////////////////////
+// UR6 UPDATE USER by ID
+// updates information as specified
+// you don't have to send the whole user, just the
+// name:value to update
+// put /api/users/:id
+
 router.put('/:id', (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
 
   // pass in req.body instead to only update what's passed through
   User.update(req.body, {
@@ -141,6 +168,11 @@ router.put('/:id', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+////////////////////////////////////////////
+// UR6 DELETE USER by ID
+// deletes the specified user
+// route: delete /api/users/:id
 
 router.delete('/:id', (req, res) => {
   User.destroy({

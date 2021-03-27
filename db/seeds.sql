@@ -1,0 +1,22 @@
+use agkv_db;
+insert into user (firstname, lastname, email, password, available) values ('Marcellina', 'Farry', 'mfarry0@yale.edu', 'Z0oNpt', 'MWF');
+insert into user (firstname, lastname, email, password, available) values ('Yehudi', 'Sandford', 'ysandford1@sciencedaily.com', 'PXShLgDgfJ4B', null);
+insert into user (firstname, lastname, email, password, available) values ('Stefanie', 'Roset', 'sroset2@squidoo.com', 'LYsbxPfYlI', 'MWF');
+insert into user (firstname, lastname, email, password, available) values ('Staci', 'Rapier', 'srapier3@nba.com', 'oZmoleotd', null);
+insert into user (firstname, lastname, email, password, available) values ('Abigale', 'Cahalin', 'acahalin4@51.la', '2pP7tm7050X', 'TR');
+insert into user (firstname, lastname, email, password, available) values ('Phaedra', 'Sambidge', 'psambidge5@cisco.com', 'R85P0P', 'MWF');
+insert into user (firstname, lastname, email, password, available) values ('Cristine', 'Kloisner', 'ckloisner6@technorati.com', 'lz714WB', null);
+insert into user (firstname, lastname, email, password, available) values ('Rikki', 'Gentiry', 'rgentiry7@twitpic.com', '9ksd8yr7Gzv', null);
+insert into user (firstname, lastname, email, password, available) values ('Ninnette', 'Perkins', 'nperkins8@mail.ru', 'HNb02BhoTgh7', null);
+insert into user (firstname, lastname, email, password, available) values ('Clayson', 'Farley', 'cfarley9@csmonitor.com', 'JDGh6TC', 'TR');
+
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2020/08/14', 11, null, 'Orchidaceae', 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 9);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2021/03/18', 11, null, 'Liliaceae', 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 7);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2020/06/30', 9, 16, 'Crassulaceae', 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 4);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2020/03/28', 11, 17, 'Lecanoraceae', 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 8);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2021/01/21', 12, 16, 'Campanulaceae', 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 4);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2020/05/09', 9, 17, 'Lamiaceae', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 5);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2020/07/18', 9, 15, 'Rosaceae', 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', 8);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2021/02/14', 12, 14, 'Fabaceae', 'Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 6);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2020/08/03', 12, 16, 'Aquifoliaceae', 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 6);
+insert into meeting (date, start, end, meeting_name, topic, organizer_id) values ('2021/03/21', 10, 14, 'Convolvulaceae', 'Phasellus in felis. Donec semper sapien a libero. Nam dui.', 7);
