@@ -5,5 +5,17 @@ $(function() {
     interval: 60,
      width: '180px',
      value: new Date(),
+     timeDrillDown: {
+      enabled: true,
+      interval: 30,
+      showMeridian: false
+     },
   });
 });
+
+ var storeMeeting = ()=>{
+  console.log(document.getElementById('dateTime').value);
+
+ };
+
+ document.getElementById('submit').addEventListener('click', storeMeeting);
