@@ -106,7 +106,9 @@ router.post('/', (req, res) => {
 // of a user's meetings, but that' not in the spec. 
 // DELETE api/participants  - user id and meeting id in body.
 
-router.delete('/', (req, res) => {
+router.delete('/
+
+', (req, res) => {
     Participant.destroy({
       where: {
         user_id: req.body.user_id,
