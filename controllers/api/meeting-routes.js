@@ -28,7 +28,8 @@ const withAuth = require('../../utils/auth');
 // ROUTE: get/api/meetings
 router.get('/', (req, res) => {
   Meeting.findAll({
-    attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
+    attributes: ['id', 'date', 'start', 'end',
+      'meeting_name', 'topic'
     ],
     include: {
       model: User,
@@ -132,7 +133,10 @@ router.put('/:id', (req, res) => {
   })
     .then(dbMeetingData => {
       if (!dbMeetingData) {
-        res.status(404).json({ message: `No meeting found with id: ${req.params.id}` });
+        res.status(404).json({
+          message:
+            `No meeting found with id: ${req.params.id}`
+        });
         return;
       }
       res.json(dbMeetingData);
