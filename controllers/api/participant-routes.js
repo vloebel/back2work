@@ -1,118 +1,148 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
-const { User, Meeting } = require('../../models');
+const { User, Meeting, Participant } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 ////////////////////////////////////////
 //  THESE ARE THE PARTICIPANT ROUTES
-//  * Get all the participants based on meeting ID 
-//  * Get all the participants based on organizer ID (?)
-//  * ADD specified array of users (?) to Participant table
-//  * ADD a single user to participant table
-//  * (get all meetings and all participants?)
-//  * Change the Accepted flag for a user
-//  * delete a user from a meeting
-//  * delete a meeting from a user
+//  --  This includes test queries for insomnia
+//  --  because they can be a bit confusing
+//  --  note that you might have to delete before inserting
+//  --  if something's been added already
+//  (P0) Dump the participant table (without includes)
+//       GET localhost:3002/api/participants
+//  (P1) Find all the meetings for a specified user 
+//       /api/participants/meetings/:user_id
+//       for example, all the meetings where user_id=6
+//       GET localhost:3002/api/participants/meetings/6
+//  (P2) Find all the users for a specified meeting
+//      /api/participants/users/:meeting_id
+//       for example, all the meetings where meeting_id=3
+//       GET localhost:3002/api/participants/users/3
+//  (P3) Add a participant and  meeting pair to Participant table
+//       (don't worry about setting accepted flag - user 
+//       will do that later)
+//       POST localhost:3002/api/participants/
+//       { "meeting_id": "6",  "user_id": "6" }
+//  (P4) Delete a participant from a meeting
+//       Delete api/participants/?user=id&meeting=id, for example
+//       DELETE localhost:3002/api/participants/?user=4&meeting=4
+//  (P5) UPDATE the Accepted flag for a Participant
+//       PUT api/participants/?user=id&meeting=id
+//       with {accepted:boolean} in the body, for example:
+//       PUT localhost:3002/api/participants/?user=4&meeting=4
+//        { "accepted":"true"}
+//////////////////////////////////////////////////
 
+//////////////////////////////////////////////////
+// (P0) Dump the Participant table
+// Might be useful for an admin or something?
+
+router.get('/', (req, res) => {
+  Participant.findAll({
+
+  })
+    .then(dbParticipantData => {
+      if (!dbParticipantData) {
+        res.status(404).json({
+          message:
+            `No participants found`
+        });
+        return;
+      }
+      res.json(dbParticipantData)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+/////////////////////////////////////////
+//  (P1) Get all meetings for specified user
+//    /api/participants/meetings/:user_id
+
+router.get('/meetings/:id', (req, res) => {
+  Participant.findAll({
+    where: {
+      user_id: req.params.id
+    },
+    include: [{
+      model: User,
+      attributes: ['id', 'firstname', 'lastname']
+    },
+    {
+      model: Meeting,
+      attributes: ['id', 'date',
+        'start', 'end',
+        'meeting_name', 'topic'
+      ],
+    }]
+  })
+    .then(dbParticipantData => {
+      if (!dbParticipantData) {
+        res.status(404).json({
+          message:
+            `No meeting found for user: ${req.params.id}`
+        });
+        return;
+      }
+      res.json(dbParticipantData)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+/////////////////////////////////////////
+//  (P2) Get all the users invited to a specified meeting_id
+//      /api/participants/users/:meeting_id
+
+router.get('/users/:id', (req, res) => {
+  Participant.findAll({
+    where: {
+      meeting_id: req.params.id
+    },
+    include: [{
+      model: User,
+      attributes: ['id', 'firstname', 'lastname']
+    },
+    {
+      model: Meeting,
+      attributes: ['id', 'date',
+        'start', 'end',
+        'meeting_name', 'topic'
+      ],
+    }]
+  })
+    .then(dbParticipantData => {
+      if (!dbParticipantData) {
+        res.status(404).json({
+          message:
+            `No meeting found for meeting: ${req.params.id}`
+        });
+        return;
+      }
+      res.json(dbParticipantData)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
 
 
 /////////////////////////////////////////////////////////
+//  (P3) CREATE A meeting/user entry
+//  post /api/participants/
+//  leave "accepted" flag null because the person who
+//  invites doesn't know if they will accept or not
 
-
-
-// GET ALL MEETINGS 
-// vll: need to PUT WITHAUTH BACK IN
-// after inquirer testing is done  
-
-// ROUTE: get/api/meetings
-router.get('/', (req, res) => {
-  Meeting.findAll({
-    attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
-    ],
-    include: {
-      model: User,
-      attributes: ['id', 'firstname', 'lastname']
-    }
-  }
-  )
-    .then(dbMeetingData => res.json(dbMeetingData))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
-
-// GET MEETINGS BY ORGANIZER ID 
-// For testing: user ID in req.params  
-// THIS will have to change to the session.user_id
-//(but how does it knwo a get all from a get by session ID?)
-//  BECAUSE we will eventually need to pass in a
-//  meeing :id to display a single meeting
-// vll: need to PUT WITHAUTH BACK IN
-
-// ROUTE: get/api/meetings/:id
-router.get('/:id', (req, res) => {
-  Meeting.findAll({
-    where: {
-      organizer_id: req.params.id
-    },
-    attributes: ['id', 'date',
-      'start', 'end',
-      'meeting_name', 'topic'
-    ],
-    include: {
-      model: User,
-      attributes: ['id', 'firstname', 'lastname']
-    }
-  }
-  )
-    .then(dbMeetingData => res.json(dbMeetingData))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
-
-// THIS IS CURRENTLY COMMENTED OUT BECAUSE
-// USER ID is being passed in for testing
-// but eventually it will be the meeting id
-// don't forget withAuth
-
-// GET MEETING BY MEETING ID
-// Returns one meeting and the person who organized it
-// ROUTE: get/api/meetings/:id
-// router.get('/:id', (req, res) => {
-//   Meeting.findOne({
-//     where: {
-//       id: req.params.id
-//     },
-//     attributes: ['id', 'date', 'start', 'end', 'meeting_name', 'topic' 
-//     ],
-//     include: {
-//       model: User,
-//       attributes: ['id', 'firstname', 'lastname']
-//     }
-//   })
-//     .then(dbMeetingData => res.json(dbMeetingData))
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json(err);
-//     });
-// });
-
-
-//post route to CREATE A NEW MEETING
-// called from xxxx
-// start and end are integers between 9-17
-// indicating office hours
 router.post('/', (req, res) => {
-  Meeting.create({
-    date: req.body.date,
-    start: req.body.start,
-    end: req.body.end,
-    organizer_id: req.body.organizer_id,
-    name: req.body.name,
-    topic:req.body.topic
+  Participant.create({
+    meeting_id: req.body.meeting_id,
+    user_id: req.body.user_id,
   })
     .then(dbMeetingData => {
       res.json(dbMeetingData);
@@ -123,51 +153,62 @@ router.post('/', (req, res) => {
     });
 });
 
-  // UPDATE a meeting using its ID
-  // the req.body can contain 'date',
-  // 'start', 'end', and/or 'organizer_id'
+//  (P4) DELETE a user/meeting pair, effectively
+//  removing that user's invitation from the meeting
+// there could be other routes, like remove ALL
+// of a user's meetings, but that' not in the spec. 
+// DELETE api/participants  - user id and meeting id in body.
 
-router.put('/:id', (req, res) => {
-
-  // pass in req.body to only update what's passed through
-  Meeting.update(req.body, {
-    individualHooks: true,
+router.delete('/', (req, res) => {
+  Participant.destroy( {
     where: {
-      id: req.params.id
+      user_id: req.query.user,
+      meeting_id: req.query.meeting
     }
   })
-    .then(dbMeetingData => {
-      if (!dbMeetingData) {
-        res.status(404).json({ message: `No meeting found with id: ${req.params.id}` });
+    .then(dbParticipantDataa => {
+      if (!dbParticipantDataa) {
+        res.status(404).json({ message: `No match found with  user_id: ${user_id}meeting_id: & ${meeting_id}` });
         return;
       }
-      res.json(dbMeetingData);
+      res.json(dbParticipantDataa);
     })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
+
 });
 
-// DELETE A MEETING:
+////////////////////////////////////
+//  Update "accepted" flag
+//  
+//  put api/participants/?user=id&meeting=id
+//   and then have the flag in the body:
+//   { accepted:true}
 
-router.delete('/:id', (req, res) => {
-  Meeting.destroy({
+
+router.put('/', (req, res) => {
+  Participant.update(req.body, {
+    individualHooks:true,
     where: {
-      id: req.params.id
+      user_id: req.query.user,
+      meeting_id: req.query.meeting
     }
   })
-    .then(dbMeetingData => {
-      if (!dbMeetingData) {
-        res.status(404).json({ message: `No meeting found with id: ${req.params.id}` });
+    .then(dbParticipantDataa => {
+      if (!dbParticipantDataa) {
+        res.status(404).json({ message: `No match found with  user_id: ${user_id}meeting_id: & ${meeting_id}` });
         return;
       }
-      res.json(dbMeetingData);
+      res.json(dbParticipantDataa);
     })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
+
 });
+
 
 module.exports = router;
