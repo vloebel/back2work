@@ -3,6 +3,7 @@
 $(function() {
   $('#dateTime').ejDateTimePicker({
     interval: 60,
+    dateTimeFormat: "M/d/y HH:mm",
      width: '180px',
      value: new Date(),
      timeDrillDown: {
