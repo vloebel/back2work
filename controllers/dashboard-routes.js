@@ -44,5 +44,14 @@ router.get('/', withAuth, (req, res) => {
     });
 });
 
+// LOADS THE ADD-MEETING PAGE with a form for 
+// submitting the new meeting. Doesn't actually save]
+// the post!
+router.get('/add-meeting/', withAuth, (req, res) => {
+  res.render('add-meeting', {
+    loggedIn: true
+  });
+});
+
 
 module.exports = router;
