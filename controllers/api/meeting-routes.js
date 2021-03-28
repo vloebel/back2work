@@ -106,7 +106,7 @@ router.post('/', (req, res) => {
     start: req.body.start,
     end: req.body.end,
     meeting_name: req.body.meeting_name,
-    topic:req.body.topic,
+    topic: req.body.topic,
     organizer_id: req.body.organizer_id
   })
     .then(dbMeetingData => {
@@ -118,9 +118,9 @@ router.post('/', (req, res) => {
     });
 });
 
-  // (MR5) UPDATE a meeting using its ID
-  // the req.body can contain 'date',
-  // 'start', 'end', and/or 'organizer_id'
+// (MR5) UPDATE a meeting using its ID
+// the req.body can contain 'date',
+// 'start', 'end', and/or 'organizer_id'
 
 router.put('/:id', (req, res) => {
 
