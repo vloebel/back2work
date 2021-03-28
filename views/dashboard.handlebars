@@ -1,22 +1,22 @@
 <section style="background-color: aquamarine;">
  
-   
-    {{!-- ADD MEETING CONTROL FLOW
+  {{!-- ADD MEETING CONTROL FLOW
+    called from dashboard-routes '/' and login
     ----------------------------------------------
-    1) IN DASHBOARD.HANDEBARS
+    * IN DASHBOARD.HANDEBARS
         User clicks ADD MEETING BUTTON (dashboard.handlebars)
         This button does not have an event listener - it links to 
         dashboard-routes via href="/dashboard/add-meeting"
-    2) DASHBOARD-ROUTES.JS
+    * DASHBOARD-ROUTES.JS
         hits the /add-meeting route 
         which calls res.render to load ADD-MEETING.HANDLEBARS 
-    3) ADD-MEETING.HANDLEBARS
+    * ADD-MEETING.HANDLEBARS
         builds the NEW-MEETING form & SUBMIT button
         loads the script ADD-MEETING.JS  
-    4) ADD-MEETING.JS 
-        Adds event listener NewMeetingHandler () 
+    * ADD-MEETING.JS 
+        Adds event listener addMeetingHandler () 
           to the ADD-MEETING.handlebars SUBMIT button
-        ON SUBMIT -  NewMeetingHandler 
+        ON SUBMIT -  addMeetingHandler 
           LOADS data from the add-meeting.handlebars form and
           POSTS the info to the route: /api/meetings and if response is ok
         RETURNS via  document.location.replace('/dashboard');

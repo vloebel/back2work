@@ -1,24 +1,23 @@
 {{!-- to get here - 
-1) User clicks ADD MEETING BUTTON (on dashboard)
-2) we hit the /add-meeting route in dashboard.js 
-3) /add-meeting does a res.render to add-meeting.handlebars (here)
-4) THIS file loads the add-meeting.js script which
-  4.a  Adds an event listner to the 
-        add-meeting-form SUBMIT button to call
-        newFormHandler in this file which
-  4.a.1 ON SUBMIT, Builds api call to POST the meeting
-  4.a.2 On response.ok does a "replace to return to the dashboard"
-  --}}
+dashboard.handlebard -> dashboard-routes.js -> add-meeting.handlebars
 
-
+* ADD-MEETING.HANDLEBARS
+        builds the NEW-MEETING form & SUBMIT button
+        loads the script ADD-MEETING.JS  
+    * ADD-MEETING.JS 
+        Adds event listener NewMeetingHandler () 
+          to the ADD-MEETING.handlebars SUBMIT button
+        ON SUBMIT -  NewMeetingHandler 
+          LOADS data from the add-meeting.handlebars form and
+          POSTS the info to the route: /api/meetings and if response is ok
+        RETURNS via  document.location.replace('/dashboard');
+        --}}
 
 <section>
-    <h2>New Meeting</h2>
+    <h2>Add Meeting</h2>
     <form class="add-meeting-form">
         <div>
-            <label for="meeting-title">
-                Title
-            </label>
+            <label for="meeting-title">Title</label>
             <input type="text" id="meeting-title" name="Meeting Title">
         </div>
         <div>
