@@ -1,11 +1,12 @@
 {
   "name": "bootcamp-project-two",
   "version": "1.0.0",
-  "description": "",
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)   ![banner](./assets/rm-banner.jpg) # Back2work -  Human Resources scheduling and Organization ## UA Web Coding Bootcamp - Group Project Two ### March 28, 2021",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "sss": "mysql -u bootcamp -p"
+    "sss": "mysql -u bootcamp -p",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +23,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vloebel/back2work.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vloebel/back2work/issues"
+  },
+  "homepage": "https://github.com/vloebel/back2work#readme"
 }

@@ -1,3 +1,21 @@
-<secton>
+<section style="background-color: aquamarine;">
+  <div>
+    <button id="add-meeting">
+      Add Meeting
+    </button>
 
-</secton>
+
+  </div>
+
+
+
+  {{#each meetingObj}}
+  <p>
+    {{date}}
+    {{start}}
+    {{end}}
+    {{meeting_name}}
+    {{topic}}
+  </p>
+  {{/each}}
+</section>

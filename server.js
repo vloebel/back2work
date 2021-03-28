@@ -19,7 +19,7 @@ const sess = {
   cookie: {
     maxAge: SESS_TIMEOUT
   },
-  rolling:true,
+  rolling: true,
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({

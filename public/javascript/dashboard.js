@@ -4,4 +4,5 @@ async function newPostHandler(event) {
 
 }
 // Submit a post and then return to dashboard
-document.querySelector('#new-post').addEventListener('submit', newPostHandler);
+
+document.querySelector('#add-meeting').addEventListener('submit', addMeetingHandler);
