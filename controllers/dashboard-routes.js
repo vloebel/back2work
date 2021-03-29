@@ -10,6 +10,7 @@ const withAuth = require("../utils/auth");
 router.get("/", withAuth, (req, res) => {
   console.log("======================");
   // Finds participants based on user_id
+  // includes User and Meeting attributes
   Participant.findAll({
     where: {
       user_id: req.session.user_id,
@@ -38,10 +39,11 @@ router.get("/", withAuth, (req, res) => {
           };
           return participantArray;
         })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
+    })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
     })
     // Finds meeting data based on the organizer id.
     .then((dbData) => {
