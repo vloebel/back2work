@@ -18,17 +18,33 @@
 //  LOADS data from the add-meeting.handlebars form and
 //  POSTS the info to the route: /api/meetings 
 //  if response  ok RETURNS via 
-//  document.location.replace('/dashboard');//
+//  document.location.replace('/dashboard');
 
 async function addMeetingHandler(event) {
   event.preventDefault();
-
   const meeting_name = document.querySelector('input[name="meeting-title"]').value.trim();
   const topic = document.querySelector('input[name="meeting-topic"]').value.trim();
+  let dateTime = document.getElementById('meeting-date-time').value;
+ 
+  // DateTime string format is "yyyy/MM.dd HH:mm" 
+  // But database expects two variables: yyyy-mm-dd   and HH:mm
+  // -------------NOTE IT ACTUALLY EXPECTS AN INTEGER, SO WE NEED TO CHANGE DB
+  // it's goign to be a string for the first pass
+  // Need to split into date and time
+  // and replace the / with -
+
+  dateTime = dateTime.split(" ");
+  const start = dateTime[1];
+  const date = (dateTime[0]).replace(/\//g, "-");
+
   // hard code some test data
-  const date = '2021/03/28';
-  const start = 9;
+  // need to change this to duration
+
   const end = 10;
+  console.log(`date  ${date}  and time   ${start}    `);
+  return;
+
+  
 
   // The names below must match the database column names
   // the id of the organizer is the logged-in user's id
@@ -48,9 +64,6 @@ async function addMeetingHandler(event) {
     }
   });
   if (response.ok) {
-    console.log(`///////////////////////////`)
-    console.log(`///  response OK  /////`)
-    console.log(`///////////////////////////`)
     document.location.replace('/dashboard');
   } else {
     alert(response.statusText);
@@ -58,13 +71,14 @@ async function addMeetingHandler(event) {
 }
 
 /////////////////////////////////////////////////
-//   date picker 
-///////////////////////////////////////////////
-
+//  date picker 
+// jQuery triggers on calendar click in form
+///////////////////////////////////////////
 $(function () {
-  $('#dateTime').ejDateTimePicker({
+  $('#meeting-date-time').ejDateTimePicker({
     interval: 60,
-    dateTimeFormat: "M/d/y HH:mm",
+    dateTimeFormat: "yyyy/MM/dd HH:mm",
+    highlightWeekend:true, // highlight the weekend in DatePicker calendar
     width: '180px',
     value: new Date(),
     timeDrillDown: {
@@ -75,7 +89,9 @@ $(function () {
   });
 });
 
+
 /////////////////////////////////////////////////////
 // event listener 
 /////////////////////////////////////////////////////
+
 document.querySelector('.add-meeting-form').addEventListener('submit', addMeetingHandler);

@@ -29,7 +29,8 @@ RETURNS via document.location.replace('/dashboard');
       <input type="text" id="meeting-topic" name="meeting-topic">
     </div>
   {{!-- -------------------------------------------------------- --}}
-  {{!--              DATE PICKER CODE START                      --}}
+  {{!--    syncfusion.com jQuery  DATE PICKER CODE               --}}
+  {{!-- for info on styles, see https://help.syncfusion.com/js/datepicker/customization --}}
 
     <div class="container">
       <div class="content-container-fluid">
@@ -38,8 +39,9 @@ RETURNS via document.location.replace('/dashboard');
             <div class="frame">
               <div class="control">
                 <label>Meeting Date and Time</label>
-                <input type="text" id="dateTime" />
-                <button id="submitDt">Submit</button>
+                <input type="text" id="meeting-date-time" />
+                {{!-- The submit button on the form can handle this --}}
+                {{!-- <button id="submitDt">Submit</button> --}}
               </div>
             </div>
           </div>
@@ -58,4 +60,4 @@ RETURNS via document.location.replace('/dashboard');
 <script src="http://cdn.syncfusion.com/js/assets/external/jquery-1.10.2.min.js"> </script>
 <script src="http://cdn.syncfusion.com/18.4.0.39/js/web/ej.web.all.min.js"></script>
 {{!-- add-meeting handler --}}
-<script src="javascript/add-meeting.js"></script>
+<script src="/javascript/add-meeting.js"></script>

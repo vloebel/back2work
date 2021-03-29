@@ -21,12 +21,15 @@ Meeting.init(
       type: DataTypes.DATEONLY,
       allowNull: true,
     },
+    // start time is a string HH:mm
     start: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
-    end: {
-      type: DataTypes.INTEGER,
+    // duration in hours, for example, 1.5
+    // restrict to 15, or 30 min intervals?
+    duration: {
+      type: DataTypes.FLOAT,
       allowNull: true
     },
     meeting_name: {
