@@ -1,3 +1,26 @@
+ 
+  {{!-- ADD MEETING CONTROL FLOW
+    called from dashboard-routes '/' and login
+    ----------------------------------------------
+    * IN DASHBOARD.HANDLEBARS
+        User clicks ADD MEETING BUTTON (dashboard.handlebars)
+        This button does not have an event listener - it links to 
+        dashboard-routes via href="/dashboard/add-meeting"
+    * DASHBOARD-ROUTES.JS
+        hits the /add-meeting route 
+        which calls res.render to load ADD-MEETING.HANDLEBARS 
+    * ADD-MEETING.HANDLEBARS
+        builds the NEW-MEETING form & SUBMIT button
+        loads the script ADD-MEETING.JS  
+    * ADD-MEETING.JS 
+        Adds event listener addMeetingHandler () 
+          to the ADD-MEETING.handlebars SUBMIT button
+        ON SUBMIT -  addMeetingHandler 
+          LOADS data from the add-meeting.handlebars form and
+          POSTS the info to the route: /api/meetings and if response is ok
+        RETURNS via  document.location.replace('/dashboard');
+        --}}
+        
 <section>
   {{!-- <div>
     <button class="waves-effect waves-light btn-large" id="add-meeting">
@@ -29,11 +52,4 @@
   </div>
   <br>
 
-
-  {{!-- {{#each meetingObj}}
-  <h4> {{meeting_name}}</h4>
-  <li>DATE: {{date}} </li>
-  <li>TIME: {{start}}-{{end}}</li>
-  <li>WHAT WILL BE DISCUSSED: {{topic}} </li>
-  {{/each}} --}}
 </section>

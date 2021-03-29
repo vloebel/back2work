@@ -97,9 +97,11 @@ router.get('/:id', (req, res) => {
 
 
 // (MR4) CREATE  MEETING
-// called from xxxx
+// called from add-meeting.js 
+// which is loaded in add-meeting.handlebars
 // start and end are integers between 9-17 (indicating office hours)
-// 
+// organizer_id is set to req.session.user_id .. is this the same?
+//
 router.post('/', (req, res) => {
   Meeting.create({
     date: req.body.date,
@@ -107,7 +109,7 @@ router.post('/', (req, res) => {
     end: req.body.end,
     meeting_name: req.body.meeting_name,
     topic: req.body.topic,
-    organizer_id: req.body.organizer_id
+    organizer_id: req.session.user_id
   })
     .then(dbMeetingData => {
       res.json(dbMeetingData);

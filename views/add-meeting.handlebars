@@ -1,18 +1,31 @@
+{{!-- to get here -
+dashboard.handlebard -> dashboard-routes.js -> add-meeting.handlebars
+
+* ADD-MEETING.HANDLEBARS
+builds the NEW-MEETING form & SUBMIT button
+loads the script ADD-MEETING.JS
+* ADD-MEETING.JS
+Adds event listener NewMeetingHandler ()
+to the ADD-MEETING.handlebars SUBMIT button
+ON SUBMIT - addMeetingHandler
+LOADS data from the add-meeting.handlebars form and
+POSTS the info to the route: /api/meetings and if response is ok
+RETURNS via document.location.replace('/dashboard');
+--}}
+
 <section>
-    <h2>New Meeting</h2>
-    <form class="add-meeting-form">
-        <div>
-            <label for="meeting-title">
-                Title
-            </label>
-            <input type="text" id="meeting-title" name="Meeting Title">
-        </div>
-        <div>
-            <label for="meeting-topic">
-                Topic
-            </label>
-            <input type="text" id="meeting-topic" name="Meeting Topic">
-        </div>
-    </form>
+  <h2>Add Meeting</h2>
+  <form class="add-meeting-form">
+    <div>
+      <label for="meeting-title">Title</label>
+      <input type="text" id="meeting-title" name="meeting-title">
+    </div>
+    <div>
+      <label for="meeting-topic">Topic</label>
+      <input type="text" id="meeting-topic" name="meeting-topic">
+    </div>
+    {{!-- date picker will give us date, start, and end --}}
+    <button type="submit" class="btn">Create</button>
+  </form>
 </section>
 <script src="/javascript/add-meeting.js"></script>

@@ -19,7 +19,7 @@ Meeting.init(
     },
       date: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      allowNull: true,
     },
     start: {
       type: DataTypes.INTEGER,
