@@ -153,4 +153,22 @@ localhost:3002/api/participants/?qtype=participants&qid=4
     "meeting_id": 5,
     "accepted": true
   }
+  {
+    "id": 7,
+    "user_id": 11,
+    "meeting_id": 2,
+    "accepted": null
+  },
+  {
+    "id": 8,
+    "user_id": 11,
+    "meeting_id": 4,
+    "accepted": false
+  },
+  {
+    "id": 9,
+    "user_id": 11,
+    "meeting_id": 5,
+    "accepted": true
+  }
 ]

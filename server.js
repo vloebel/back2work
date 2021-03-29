@@ -6,7 +6,7 @@ require('dotenv').config();
 const SESS_SECRET = process.env.SESS_SECRET;
 
 // session timeout when idle = minutes * seconds/min * 1 second
-const SESS_TIMEOUT = 5 * 60 * 1000;
+const SESS_TIMEOUT = 60 * 60 * 1000;
 
 const app = express();
 const PORT = process.env.PORT || 3002;

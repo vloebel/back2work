@@ -26,7 +26,8 @@ RETURNS via document.location.replace('/dashboard');
       Add Meeting <i class="tiny material-icons">add</i>
     </button>
   </div> --}}
-  <div>
+  <div style="background-color:indianred"
+    <h3>meetings you organized</h3>
     {{#each meetingObj}}
     <div class="row">
       <div class="col s12 m6">
@@ -43,7 +44,8 @@ RETURNS via document.location.replace('/dashboard');
     {{/each}}
   </div>
   <br>
-  <div>
+  <div style="background-color: aquamarine;">
+    <h3>meetings you're invited to</h3>
     {{#each participantObj}}
     <div class="row">
       <div class="col s12 m6">

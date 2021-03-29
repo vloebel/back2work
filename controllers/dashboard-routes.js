@@ -8,6 +8,7 @@ const withAuth = require("../utils/auth");
 // called with get /dashboard/
 
 router.get("/", withAuth, (req, res) => {
+  var mappedParticipantArray, mappedOrganizerArray;
   console.log("======================");
   // Finds participants based on user_id
   // includes User and Meeting attributes
@@ -28,26 +29,26 @@ router.get("/", withAuth, (req, res) => {
   })
     // Maps the meeting data and returns the participant data
     .then((dbData) => {
-      var myArray = dbData
+      var mappedParticipantArray = dbData
         .map((element, i) => {
-          var participantArray = {
+          var meetingArray1 = {
             date: element.dataValues.meeting.date,
             start: element.dataValues.meeting.start,
             end: element.dataValues.meeting.end,
             meeting_name: element.dataValues.meeting.meeting_name,
             topic: element.dataValues.meeting.topic,
           };
-          return participantArray;
+          return meetingArray1;
         })
+      return mappedParticipantArray;
     })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
     })
+
     // Finds meeting data based on the organizer id.
     .then((dbData) => {
-      console.log("&&&&&&&&&&&&&&&&&&&&");
       Meeting.findAll({
         where: {
           organizer_id: req.session.user_id,
@@ -55,19 +56,20 @@ router.get("/", withAuth, (req, res) => {
         attributes: ["date", "start", "end", "meeting_name", "topic"],
       })
         .then((dbData2) => {
-          var myArray2 = dbData2.map((element, i) => {
-            var meetingArray2 = {
-              date: element.dataValues.date,
-              start: element.dataValues.start,
-              end: element.dataValues.end,
-              meeting_name: element.dataValues.meeting_name,
-              topic: element.dataValues.topic
-            };
-            return meetingArray2;
-          });
+          var mappedOrganizerArray = dbData2
+            .map((element, i) => {
+              var meetingArray2 = {
+                date: element.dataValues.date,
+                start: element.dataValues.start,
+                end: element.dataValues.end,
+                meeting_name: element.dataValues.meeting_name,
+                topic: element.dataValues.topic
+              };
+              return meetingArray2;
+            });
           res.render("dashboard", {
-            participantObj: myArray1,
-            meetingObj: myArray2,
+            participantObj: mappedParticipantArray
+            // meetingObj: mappedOrganizerArray
           });
         })
         .catch((err) => {
@@ -75,7 +77,8 @@ router.get("/", withAuth, (req, res) => {
           res.status(500).json(err);
         });
     });
-});
+  
+})
 
 // LOADS THE ADD-MEETING PAGE with a form for
 // submitting the new meeting.
