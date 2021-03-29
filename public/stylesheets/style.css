@@ -49,12 +49,19 @@ h1 {
 }
 
 .page-footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
   background-color: #7c878eff;
   font-family: "Montserrat", sans-serif;
-}ç
+}
 
-.btn {
+button, .btn {
   background-color: #c4752dff !important;
+}
+
+#logout {
+  margin-left: 10px;
 }
 
 /*
