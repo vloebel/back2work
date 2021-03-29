@@ -1,21 +1,39 @@
-<section style="background-color: aquamarine;">
+<section>
+  {{!-- <div>
+    <button class="waves-effect waves-light btn-large" id="add-meeting">
+      Add Meeting <i class="tiny material-icons">add</i>
+    </button>
+  </div> --}}
+
+  {{#each meetingObj}}
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{meeting_name}}</span>
+          <p>{{topic}}</p>
+          <p>DATE: {{date}}</p>
+          <p>TIME: {{start}}-{{end}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
   <div>
-    <button id="add-meeting">
-      Add Meeting
+    <button class="waves-effect waves-light btn-large" id="add-meeting">
+      Add Meeting <i class="tiny material-icons">add_circle</i>
     </button>
 
 
+
   </div>
+  <br>
 
 
-
-  {{#each meetingObj}}
-  <p>
-    {{date}}
-    {{start}}
-    {{end}}
-    {{meeting_name}}
-    {{topic}}
-  </p>
-  {{/each}}
+  {{!-- {{#each meetingObj}}
+  <h4> {{meeting_name}}</h4>
+  <li>DATE: {{date}} </li>
+  <li>TIME: {{start}}-{{end}}</li>
+  <li>WHAT WILL BE DISCUSSED: {{topic}} </li>
+  {{/each}} --}}
 </section>
