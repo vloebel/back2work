@@ -7,6 +7,7 @@ const withAuth = require("../utils/auth");
 // INCLUDE the users who are invited to that meeting
 // called with get /dashboard/
 
+
 router.get("/", withAuth, (req, res) => {
   var mappedParticipantArray, mappedOrganizerArray;
   console.log("======================");
@@ -40,45 +41,40 @@ router.get("/", withAuth, (req, res) => {
           };
           return meetingArray1;
         })
-      return mappedParticipantArray;
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    })
-
-    // Finds meeting data based on the organizer id.
-    .then((dbData) => {
-      Meeting.findAll({
-        where: {
-          organizer_id: req.session.user_id,
-        },
-        attributes: ["date", "start", "end", "meeting_name", "topic"],
-      })
-        .then((dbData2) => {
-          var mappedOrganizerArray = dbData2
-            .map((element, i) => {
-              var meetingArray2 = {
-                date: element.dataValues.date,
-                start: element.dataValues.start,
-                end: element.dataValues.end,
-                meeting_name: element.dataValues.meeting_name,
-                topic: element.dataValues.topic
-              };
-              return meetingArray2;
-            });
-          res.render("dashboard", {
-            participantObj: mappedParticipantArray,
-            meetingObj: mappedOrganizerArray
-          });
+      // return mappedParticipantArray;
+      // (dbData) => {
+        Meeting.findAll({
+          where: {
+            organizer_id: req.session.user_id,
+          },
+          attributes: ["date", "start", "end", "meeting_name", "topic"],
         })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-    });
+          .then((dbData2) => {
+            var mappedOrganizerArray = dbData2
+              .map((element, i) => {
+                var meetingArray2 = {
+                  date: element.dataValues.date,
+                  start: element.dataValues.start,
+                  end: element.dataValues.end,
+                  meeting_name: element.dataValues.meeting_name,
+                  topic: element.dataValues.topic
+                };
+                return meetingArray2;
+              });
+            res.render("dashboard", {
+              participantObj: mappedParticipantArray,
+              meetingObj: mappedOrganizerArray
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
+      // }
+    })
   
 })
+
 
 // LOADS THE ADD-MEETING PAGE with a form for
 // submitting the new meeting.
