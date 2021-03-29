@@ -136,6 +136,8 @@ router.get('/users/:id', (req, res) => {
 /////////////////////////////////////////////////////////
 //  (P3) CREATE A meeting/user entry
 //  post /api/participants/
+//  {meeting_id : user_id}  for example
+// {"7" : "4"}
 //  leave "accepted" flag null because the person who
 //  invites doesn't know if they will accept or not
 
