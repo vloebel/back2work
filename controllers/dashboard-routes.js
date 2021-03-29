@@ -27,21 +27,50 @@ router.get('/', withAuth, (req, res) => {
   })
     .then(dbData => {
      var myArray = dbData.map((element, i) => {
-       var dashboardObject = {
+       var participantArray = {
         date: element.dataValues.meeting.date,
         start: element.dataValues.meeting.start,
         end: element.dataValues.meeting.end,
         meeting_name: element.dataValues.meeting.meeting_name,
         topic: element.dataValues.meeting.topic,
        }
-       return dashboardObject
+       return participantArray
      })
-      res.render('dashboard', { meetingObj: myArray });
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+})
+
+.then ((dbData => {
+  console.log('&&&&&&&&&&&&&&&&&&&&');
+  Meeting.findAll({
+    where: {
+      organizer_id: req.session.user_id
+    },
+      attributes: ['date',
+        'start', 'end',
+        'meeting_name', 'topic'
+      ]
+  })
+    .then(dbData2 => {
+     var myArray2 = dbData2.map((element, i) => {
+       var meetingArray2 = {
+        date: element.dataValues.meeting.date,
+        start: element.dataValues.meeting.start,
+        end: element.dataValues.meeting.end,
+        meeting_name: element.dataValues.meeting.meeting_name,
+        topic: element.dataValues.meeting.topic,
+       }
+       return meetingArray2
+     })
+      res.render('dashboard', { participantObj: myArray1, meetingObj: myArray2 });
     })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
+}));
 });
 
 // LOADS THE ADD-MEETING PAGE with a form for 
