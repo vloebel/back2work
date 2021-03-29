@@ -18,45 +18,86 @@
 //  LOADS data from the add-meeting.handlebars form and
 //  POSTS the info to the route: /api/meetings 
 //  if response  ok RETURNS via 
-//  document.location.replace('/dashboard');//
+//  document.location.replace('/dashboard');
 
 async function addMeetingHandler(event) {
   event.preventDefault();
-
   const meeting_name = document.querySelector('input[name="meeting-title"]').value.trim();
   const topic = document.querySelector('input[name="meeting-topic"]').value.trim();
+  let dateTime = document.getElementById('meeting-date-time').value;
+ 
+  // DateTime string format is "yyyy/MM.dd HH:mm" 
+  // But database expects two variables: yyyy-mm-dd   and HH:mm
+  // -------------NOTE IT ACTUALLY EXPECTS AN INTEGER, SO WE NEED TO CHANGE DB
+  // it's goign to be a string for the first pass
+  // Need to split into date and time
+  // and replace the / with -
+
+  dateTime = dateTime.split(" ");
+  const start = dateTime[1];
+  const date = (dateTime[0]).replace(/\//g, "-");
+
   // hard code some test data
-  const date = '2021/03/28';
-  const start = 9;
-  const end = 10;
+  // need to change this to duration
+
+ 
+  // console.log(`date  ${date}  and time   ${start}    `);
+ 
+//TBD - WE COULD ADD SOME VALIDATION TO DATES AND TIMES
+  // MAKE SURE THEY ROUND TO 15 MIN, FOR EXAMPLE
+  // RIGHT NOW THE TIME IS A STRING AND THE DURATION
+  // IS A FLOAT MEANING NUMBER OF HOURS, LIKE 1.25
+  // however, duration is NOT in the form so we are 
+  // hard coding it to 1.0 (hours) it's NOT displayed
   
+  const duration = 1.0; //hours
+
   // The names below must match the database column names
   // the id of the organizer is the logged-in user's id
   // it is set to req.session.user_id in the route
 
-    const response = await fetch(`/api/meetings`, {
-        method: 'POST',
-        body: JSON.stringify({
-            date,
-            start,
-            end,
-            meeting_name,
-            topic
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-  if (response.ok) {
-    console.log(`///////////////////////////`)
-    console.log(`///  response OK  /////`)
-    console.log(`///////////////////////////`)
-    document.location.replace('/dashboard');
-    } else {
-        alert(response.statusText);
+  const response = await fetch(`/api/meetings`, {
+    method: 'POST',
+    body: JSON.stringify({
+      date,
+      start,
+      duration,
+      meeting_name,
+      topic
+    }),
+    headers: {
+      'Content-Type': 'application/json'
     }
+  });
+  if (response.ok) {
+    document.location.replace('/dashboard');
+  } else {
+    alert(response.statusText);
+  }
 }
+
+/////////////////////////////////////////////////
+//  date picker 
+// jQuery triggers on calendar click in form
+///////////////////////////////////////////
+$(function () {
+  $('#meeting-date-time').ejDateTimePicker({
+    interval: 60,
+    dateTimeFormat: "yyyy/MM/dd HH:mm",
+    highlightWeekend:true, // highlight the weekend in DatePicker calendar
+    width: '180px',
+    value: new Date(),
+    timeDrillDown: {
+      enabled: true,
+      interval: 30,
+      showMeridian: false
+    },
+  });
+});
+
+
 /////////////////////////////////////////////////////
 // event listener 
 /////////////////////////////////////////////////////
+
 document.querySelector('.add-meeting-form').addEventListener('submit', addMeetingHandler);

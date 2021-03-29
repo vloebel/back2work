@@ -24,7 +24,7 @@ router.get("/", withAuth, (req, res) => {
       },
       {
         model: Meeting,
-        attributes: ["date", "start", "end", "meeting_name", "topic"],
+        attributes: ["date", "start", "duration", "meeting_name", "topic"],
       },
     ],
   })
@@ -35,7 +35,7 @@ router.get("/", withAuth, (req, res) => {
           var meetingArray1 = {
             date: element.dataValues.meeting.date,
             start: element.dataValues.meeting.start,
-            end: element.dataValues.meeting.end,
+            duration: element.dataValues.meeting.duration,
             meeting_name: element.dataValues.meeting.meeting_name,
             topic: element.dataValues.meeting.topic,
           };
@@ -47,7 +47,7 @@ router.get("/", withAuth, (req, res) => {
           where: {
             organizer_id: req.session.user_id,
           },
-          attributes: ["date", "start", "end", "meeting_name", "topic"],
+          attributes: ["date", "start", "duration", "meeting_name", "topic"],
         })
           .then((dbData2) => {
             var mappedOrganizerArray = dbData2
@@ -55,7 +55,7 @@ router.get("/", withAuth, (req, res) => {
                 var meetingArray2 = {
                   date: element.dataValues.date,
                   start: element.dataValues.start,
-                  end: element.dataValues.end,
+                  duration: element.dataValues.duration,
                   meeting_name: element.dataValues.meeting_name,
                   topic: element.dataValues.topic
                 };
