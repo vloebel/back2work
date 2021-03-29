@@ -40,11 +40,17 @@ async function addMeetingHandler(event) {
   // hard code some test data
   // need to change this to duration
 
-  const end = 10;
-  console.log(`date  ${date}  and time   ${start}    `);
-  return;
-
+ 
+  // console.log(`date  ${date}  and time   ${start}    `);
+ 
+//TBD - WE COULD ADD SOME VALIDATION TO DATES AND TIMES
+  // MAKE SURE THEY ROUND TO 15 MIN, FOR EXAMPLE
+  // RIGHT NOW THE TIME IS A STRING AND THE DURATION
+  // IS A FLOAT MEANING NUMBER OF HOURS, LIKE 1.25
+  // however, duration is NOT in the form so we are 
+  // hard coding it to 1.0 (hours) it's NOT displayed
   
+  const duration = 1.0; //hours
 
   // The names below must match the database column names
   // the id of the organizer is the logged-in user's id
@@ -55,7 +61,7 @@ async function addMeetingHandler(event) {
     body: JSON.stringify({
       date,
       start,
-      end,
+      duration,
       meeting_name,
       topic
     }),
