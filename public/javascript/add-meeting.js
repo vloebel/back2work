@@ -9,7 +9,7 @@
 //      add-meeting.js
 //////////////////////////////////////////////
 
-const { Meeting } = require("../../models");
+// const { Meeting } = require("../../models");
 
 
 //////////////////////////////////////////////
@@ -21,30 +21,37 @@ const { Meeting } = require("../../models");
 //  document.location.replace('/dashboard');//
 
 async function addMeetingHandler(event) {
-    event.preventDefault();
-    const title = document.querySelector('input[name="meeting-title"]').value.trim();
-  const topic = document.querySelector('textarea[name="meeting-topic"]').value.trim();
+  event.preventDefault();
+
+  const meeting_name = document.querySelector('input[name="meeting-title"]').value.trim();
+  const topic = document.querySelector('input[name="meeting-topic"]').value.trim();
   // hard code some test data
   const date = '2021/03/28';
   const start = 9;
   const end = 10;
-  const organizer = req.session.user_id;
+  
+  // The names below must match the database column names
+  // the id of the organizer is the logged-in user's id
+  // it is set to req.session.user_id in the route
+
     const response = await fetch(`/api/meetings`, {
         method: 'POST',
         body: JSON.stringify({
             date,
             start,
             end,
-            title,
-            topic,
-            organizer
+            meeting_name,
+            topic
         }),
         headers: {
             'Content-Type': 'application/json'
         }
     });
-    if (response.ok) {
-        document.location.replace('/dashboard');
+  if (response.ok) {
+    console.log(`///////////////////////////`)
+    console.log(`///  response OK  /////`)
+    console.log(`///////////////////////////`)
+    document.location.replace('/dashboard');
     } else {
         alert(response.statusText);
     }

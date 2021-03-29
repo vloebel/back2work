@@ -28,11 +28,11 @@ router.get('/', withAuth, (req, res) => {
     .then(dbData => {
      var myArray = dbData.map((element, i) => {
        var dashboardObject = {
-         date: element.dataValues.meeting.date,
-         start: element.dataValues.meeting.start,
-         end: element.dataValues.meeting.end,
-         meeting_name: element.dataValues.meeting.meeting_name,
-         topic: element.dataValues.meeting.topic,
+        date: element.dataValues.meeting.date,
+        start: element.dataValues.meeting.start,
+        end: element.dataValues.meeting.end,
+        meeting_name: element.dataValues.meeting.meeting_name,
+        topic: element.dataValues.meeting.topic,
        }
        return dashboardObject
      })
@@ -45,8 +45,8 @@ router.get('/', withAuth, (req, res) => {
 });
 
 // LOADS THE ADD-MEETING PAGE with a form for 
-// submitting the new meeting. Doesn't actually save]
-// the post!
+// submitting the new meeting. 
+
 router.get('/add-meeting/', withAuth, (req, res) => {
   res.render('add-meeting', {
     loggedIn: true

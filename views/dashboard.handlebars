@@ -3,7 +3,7 @@
   {{!-- ADD MEETING CONTROL FLOW
     called from dashboard-routes '/' and login
     ----------------------------------------------
-    * IN DASHBOARD.HANDEBARS
+    * IN DASHBOARD.HANDLEBARS
         User clicks ADD MEETING BUTTON (dashboard.handlebars)
         This button does not have an event listener - it links to 
         dashboard-routes via href="/dashboard/add-meeting"
@@ -27,13 +27,17 @@
 
 {{!-- the comments above are new the stuff below is our old test display --}}
 
-  {{#each meetingObj}}
-  <p>
-    {{date}}
-    {{start}}
-    {{end}}
-    {{meeting_name}}
-    {{topic}}
-  </p>
-  {{/each}}
+<div>
+  <p>----------as above-----------</p>
+    {{#each meetingObj}}
+    <p>
+      {{date}}
+      {{start}}
+      {{end}}
+      {{meeting_name}}
+      {{topic}}
+    </p>
+    {{/each}}
+    <p>>----------so below>----------</p>
+</div>
 </section>
