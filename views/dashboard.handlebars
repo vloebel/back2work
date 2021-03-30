@@ -31,7 +31,7 @@ RETURNS via document.location.replace('/dashboard');
             <span class="card-title">{{meeting_name}}</span>
             <p>{{topic}}</p>
             <p>DATE: {{date}}</p>
-            <p>TIME: {{start}}-{{end}}</p>
+            <p>TIME: {{start}} </p>
           </div>
         </div>
       </div>
@@ -40,6 +40,7 @@ RETURNS via document.location.replace('/dashboard');
   </div>
   <div>
     <h4>Meetings you're invited to</h4>
+
     {{#each participantObj}}
     <div class="row">
       <div class="col s12  m12 l12">
@@ -51,6 +52,7 @@ RETURNS via document.location.replace('/dashboard');
             <p>TIME: {{start}}-{{end}}</p>
             <a class="waves-effect waves-light btn-small"><i
                 class="material-icons left">check</i>Click to respond</a>
+
           </div>
         </div>
       </div>

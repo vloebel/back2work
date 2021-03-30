@@ -28,7 +28,7 @@ const withAuth = require('../../utils/auth');
 // ROUTE: get/api/meetings
 router.get('/', (req, res) => {
   Meeting.findAll({
-    attributes: ['id', 'date', 'start', 'end',
+    attributes: ['id', 'date', 'start', 'duration',
       'meeting_name', 'topic'
     ],
     include: {
@@ -54,7 +54,7 @@ router.get('/userid/:id', (req, res) => {
       organizer_id: req.params.id
     },
     attributes: ['id', 'date',
-      'start', 'end',
+      'start', 'duration',
       'meeting_name', 'topic'
     ],
     include: {
@@ -79,7 +79,7 @@ router.get('/:id', (req, res) => {
       id: req.params.id
     },
     attributes: ['id', 'date',
-      'start', 'end',
+      'start', 'duration',
       'meeting_name', 'topic'
     ],
     include: {
@@ -99,14 +99,16 @@ router.get('/:id', (req, res) => {
 // (MR4) CREATE  MEETING
 // called from add-meeting.js 
 // which is loaded in add-meeting.handlebars
-// start and end are integers between 9-17 (indicating office hours)
+// start is a string in the format HH:mm
+// duration is a float that should be rounded to 15 min increments
+// for example, .25, .5, 1.5  for the corresponding fractions of hours
 // organizer_id is set to req.session.user_id .. is this the same?
 //
 router.post('/', (req, res) => {
   Meeting.create({
     date: req.body.date,
     start: req.body.start,
-    end: req.body.end,
+    duration: req.body.duration,
     meeting_name: req.body.meeting_name,
     topic: req.body.topic,
     organizer_id: req.session.user_id
@@ -122,7 +124,7 @@ router.post('/', (req, res) => {
 
 // (MR5) UPDATE a meeting using its ID
 // the req.body can contain 'date',
-// 'start', 'end', and/or 'organizer_id'
+// 'start', 'duration', and/or 'organizer_id'
 
 router.put('/:id', (req, res) => {
 
