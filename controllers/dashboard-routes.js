@@ -17,6 +17,7 @@ router.get("/", withAuth, (req, res) => {
     where: {
       user_id: req.session.user_id,
     },
+    attributes: ["accepted"],
     include: [
       {
         model: User,
@@ -30,9 +31,12 @@ router.get("/", withAuth, (req, res) => {
   })
     // Maps the meeting data and returns the participant data
     .then((dbData) => {
+
+      console.log(JSON.stringify(dbData));
       var mappedParticipantArray = dbData
         .map((element, i) => {
           var meetingArray1 = {
+            accepted: element.dataValues.accepted,
             date: element.dataValues.meeting.date,
             start: element.dataValues.meeting.start,
             duration: element.dataValues.meeting.duration,
