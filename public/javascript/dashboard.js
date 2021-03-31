@@ -22,7 +22,7 @@ async function toggleMeetingHandler(event) {
   const toggleMeetingText = toggleMeetingEl.value;
   const meetingInfoEl = document.querySelector("#meeting-info");
   const meeting_id = meetingInfoEl.dataset.meeting;
-  const user_id = meetingInfoEl.dataset.particiipant;
+  const user_id = meetingInfoEl.dataset.participant;
 
   // toggle the "accepted" flag through three states
   //      accepted - declined - uncertain
