@@ -64,7 +64,13 @@ async function toggleMeetingHandler(event) {
 //   }
 // }
   
- }
+}
 
 
-document.querySelector('#btn-toggle-accept').addEventListener('click', toggleMeetingHandler);
+// document.querySelector('#btn-toggle-accept').addEventListener('click', toggleMeetingHandler);
+var toggleButtons = document.querySelectorAll(".pickme");
+console.log({ toggleButtons});
+
+toggleButtons.forEach((button) => {
+  button.addEventListener('click', toggleMeetingHandler())
+});
