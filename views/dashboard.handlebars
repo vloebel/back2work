@@ -54,10 +54,10 @@ RETURNS via document.location.replace('/dashboard');
             do not remove the  class
             it is how we add an event listener to all the buttons 
             the data attribute are how we get the user & meeting ID--}}
-            <div><span>INVITATION: (click to change)</span>
-              <button class="waves-effect waves-light btn-large"  "pickme" 
+            <div><span>RESPONSE:</span>
+              <button class="waves-effect waves-light btn-large orange darken-4" id="pickme"
               data-meeting={{this.meetingId}}
-              data-particiipant={{this.participantId}}> 
+              data-participant={{this.participantId}}> 
                 {{accepted}}
               </button>
             </div>
