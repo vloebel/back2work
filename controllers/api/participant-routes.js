@@ -74,7 +74,7 @@ router.get('/meetings/:id', (req, res) => {
     {
       model: Meeting,
       attributes: ['id', 'date',
-        'start', 'end',
+        'start', 'duration',
         'meeting_name', 'topic'
       ],
     }]
@@ -111,7 +111,7 @@ router.get('/users/:id', (req, res) => {
     {
       model: Meeting,
       attributes: ['id', 'date',
-        'start', 'end',
+        'start', 'duration',
         'meeting_name', 'topic'
       ],
     }]
