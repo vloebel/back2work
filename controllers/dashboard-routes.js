@@ -9,15 +9,15 @@ const withAuth = require("../utils/auth");
 
 
 router.get("/", withAuth, (req, res) => {
-  var mappedParticipantArray, mappedOrganizerArray;
   console.log("======================");
-  // Finds participants based on user_id
-  // includes User and Meeting attributes
+
+  // Get the meeting-invitations for logged-in user;
+
   Participant.findAll({
     where: {
       user_id: req.session.user_id,
     },
-    attributes: ["accepted"],
+    attributes: ["user_id", "meeting_id", "accepted"],
     include: [
       {
         model: User,
@@ -29,14 +29,31 @@ router.get("/", withAuth, (req, res) => {
       },
     ],
   })
-    // Maps the meeting data and returns the participant data
+    // Maps the database rows into an array of objects
+    // (one object for each "row" in the form columnName:value)
     .then((dbData) => {
 
       console.log(JSON.stringify(dbData));
       var mappedParticipantArray = dbData
         .map((element, i) => {
+          // use the "accepted" attribute to set a
+          // text string to pass into handlebars
+          // must be this EXACT text because we use it
+          // to convert back to boolean in handlebars.js
+          let acceptedStatus = "Not Sure";
+          switch (element.dataValues.accepted) {
+            case (true):
+              acceptedStatus = "Accepted";
+              break;
+            case (false):
+              acceptedStatus = "Declined"
+              break;
+          }
+
           var meetingArray1 = {
-            accepted: element.dataValues.accepted,
+            participantId:element.dataValues.user_id,
+            meetingId: element.dataValues.meeting_id,
+            accepted: acceptedStatus,
             date: element.dataValues.meeting.date,
             start: element.dataValues.meeting.start,
             duration: element.dataValues.meeting.duration,
@@ -45,38 +62,39 @@ router.get("/", withAuth, (req, res) => {
           };
           return meetingArray1;
         })
-      // return mappedParticipantArray;
-      // (dbData) => {
-        Meeting.findAll({
-          where: {
-            organizer_id: req.session.user_id,
-          },
-          attributes: ["date", "start", "duration", "meeting_name", "topic"],
-        })
-          .then((dbData2) => {
-            var mappedOrganizerArray = dbData2
-              .map((element, i) => {
-                var meetingArray2 = {
-                  date: element.dataValues.date,
-                  start: element.dataValues.start,
-                  duration: element.dataValues.duration,
-                  meeting_name: element.dataValues.meeting_name,
-                  topic: element.dataValues.topic
-                };
-                return meetingArray2;
-              });
-            res.render("dashboard", {
-              participantObj: mappedParticipantArray,
-              meetingObj: mappedOrganizerArray
+      // Get the meetings organized byh logged-in user;
+      Meeting.findAll({
+        where: {
+          organizer_id: req.session.user_id,
+        },
+        attributes: ["id", "date", "start", "duration", "meeting_name", "topic"],
+      })
+        .then((dbData2) => {
+          var mappedOrganizerArray = dbData2
+            .map((element, i) => {
+              var meetingArray2 = {
+                organizerId: req.session.user_id,
+                meetingId: element.dataValues.id,
+                date: element.dataValues.date,
+                start: element.dataValues.start,
+                duration: element.dataValues.duration,
+                meeting_name: element.dataValues.meeting_name,
+                topic: element.dataValues.topic
+              };
+              return meetingArray2;
             });
-          })
-          .catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
+          res.render("dashboard", {
+            participantObj: mappedParticipantArray,
+            meetingObj: mappedOrganizerArray
           });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
       // }
     })
-  
+
 })
 
 
