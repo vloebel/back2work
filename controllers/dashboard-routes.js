@@ -38,6 +38,8 @@ router.get("/", withAuth, (req, res) => {
         .map((element, i) => {
           // use the "accepted" attribute to set a
           // text string to pass into handlebars
+          // must be this EXACT text because we use it
+          // to convert back to boolean in handlebars.js
           let acceptedStatus = "Not Sure";
           switch (element.dataValues.accepted) {
             case (true):

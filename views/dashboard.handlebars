@@ -41,6 +41,8 @@ RETURNS via document.location.replace('/dashboard');
   <div>
     <h4>Meetings you're invited to</h4>
 
+    {{!-- div id="accept-button-nanny" is used to add an event listener to the buttons via event delegation.  --}}
+ <div  id="accept-button-nanny">
     {{#each participantObj}}
     <div class="row">
       <div class="col s12  m12 l12">
@@ -50,14 +52,16 @@ RETURNS via document.location.replace('/dashboard');
             <p>{{topic}}</p>
             <p>DATE: {{date}}</p>
             <p>TIME: {{start}} </p>
-          {{!-- store the meeting and user id on data attributes 
-            do not remove the  class
-            it is how we add an event listener to all the buttons 
-            the data attribute are how we get the user & meeting ID--}}
+        
             <div><span>RESPONSE:</span>
-              <button class="waves-effect waves-light btn-large orange darken-4" id="pickme"
+            {{!-- store info that was passed into handlebars on the data-attributes for the button so they can be picked up by dashboard.js event handler --}}
+            <button class="waves-effect waves-light 
+              btn-large orange darken-4"
               data-meeting={{this.meetingId}}
-              data-participant={{this.participantId}}> 
+              data-participant={{this.participantId}}
+              data-status={{this.accepted}}>
+              {{!-- end of button open tag --}}
+              {{!-- followed by the text for the button --}}
                 {{accepted}}
               </button>
             </div>

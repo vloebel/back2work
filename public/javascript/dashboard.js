@@ -18,59 +18,63 @@
 
 async function toggleMeetingHandler(event) {
   event.preventDefault();
-  const toggleMeetingEl = document.querySelector('#btn-toggle-accept');
-  const toggleMeetingText = toggleMeetingEl.value;
-  const meetingInfoEl = document.querySelector("#meeting-info");
-  const meeting_id = meetingInfoEl.dataset.meeting;
-  const user_id = meetingInfoEl.dataset.participant;
 
+  const meeting_id = event.target.dataset.meeting;
+  const user_id = event.target.dataset.participant;
+  const statusText = event.target.dataset.status;
+
+
+  // console.log(`old button status text: ${statusText}`);
+  // console.log(`meeting id: ${meeting_id} user_id: ${user_id}`);
+
+
+  //   CAUTION: ///////////////////////////////////
+  //   data - status in the html is only picking up the first word
+  //   of "Not Sure" which works fine but might be unexpected for anyone
+  //   updating this code
+  ///////////////////////////////////////////////////////////
   // toggle the "accepted" flag through three states
-  //      accepted - declined - uncertain
-  //   convert back to boolean
-  //   and store in the database
+  //      Accepted -> Declined -> Not Sure
+  //   convert back to boolean and store in the database
+  //   default "Not Sure" = null
 
-  console.log(`toggle Meeting value: ${toggleMeetingText}`);
-  console.log(`meeting id: ${meeting_id} user_id: ${user_id}`);
+  let accepted = null;
+  if (statusText == "Accepted") accepted = false;
+  else if (statusText == "Not") accepted = true;
 
-  let acceptedStatus = null;
-  switch (toggleMeetingText) {
-    case ("Accepted"):
-      acceptedStatus = true;
-      break;
-    case ("Declined"):
-      acceptedStatus = false
-      break;
+
+  // console.log(`NOW accepted: ${accepted}`);
+  // console.log(`meeting id: ${meeting_id} user_id: ${user_id}`);
+
+
+  //////////////////////////////////////////////////
+  //  UPDATE "accepted" flag status in the db
+  // user id and meeting id go in the query string
+  // PUT api/participants/?user=id&meeting=id
+  // accepted goes in the body
+
+  const response = await fetch(`/api/participants?user=${user_id}&meeting=${meeting_id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      accepted
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  if (response.ok) {
+    console.log(`response.statusText: ${response.statusText}`);
+    document.location.replace('/dashboard');
+  } else {
+    alert(response.statusText);
   }
-  
-  // return //// DON'T POST YET
-  
-//   const response = await fetch(`/api/participants`, {
-//     method: 'PUT',
-//     body: JSON.stringify({
-//       date,
-//       start,
-//       duration,
-//       meeting_name,
-//       topic
-//     }),
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   });
-//   if (response.ok) {
-//     document.location.replace('/dashboard');
-//   } else {
-//     alert(response.statusText);
-//   }
-// }
-  
 }
 
 
-// document.querySelector('#btn-toggle-accept').addEventListener('click', toggleMeetingHandler);
-var toggleButtons = document.querySelectorAll("#pickme");
-console.log({ toggleButtons });
 
-toggleButtons.forEach((button) => {
-  button.addEventListener('click', toggleMeetingHandler())
-});
+
+// add an event listener to the parent element 
+// containing the handlebars template
+document.querySelector('#accept-button-nanny').addEventListener('click', toggleMeetingHandler);
+
+
