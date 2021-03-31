@@ -67,12 +67,14 @@ router.get("/", withAuth, (req, res) => {
         where: {
           organizer_id: req.session.user_id,
         },
-        attributes: ["date", "start", "duration", "meeting_name", "topic"],
+        attributes: ["id", "date", "start", "duration", "meeting_name", "topic"],
       })
         .then((dbData2) => {
           var mappedOrganizerArray = dbData2
             .map((element, i) => {
               var meetingArray2 = {
+                organizerId: req.session.user_id,
+                meetingId: element.dataValues.id,
                 date: element.dataValues.date,
                 start: element.dataValues.start,
                 duration: element.dataValues.duration,

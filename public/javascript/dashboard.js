@@ -19,6 +19,12 @@
 async function toggleMeetingHandler(event) {
   event.preventDefault();
 
+  // ignore clicks that were not on a button
+  if (!event.target.closest("button"))
+    return;
+
+  //// otherwise....
+
   const meeting_id = event.target.dataset.meeting;
   const user_id = event.target.dataset.participant;
   const statusText = event.target.dataset.status;
@@ -29,9 +35,8 @@ async function toggleMeetingHandler(event) {
 
 
   //   CAUTION: ///////////////////////////////////
-  //   data - status in the html is only picking up the first word
-  //   of "Not Sure" which works fine but might be unexpected for anyone
-  //   updating this code
+  //   data-status in the html only sends the first word
+  //   of "Not Sure" 
   ///////////////////////////////////////////////////////////
   // toggle the "accepted" flag through three states
   //      Accepted -> Declined -> Not Sure
@@ -63,7 +68,44 @@ async function toggleMeetingHandler(event) {
     }
   });
   if (response.ok) {
-    console.log(`response.statusText: ${response.statusText}`);
+    document.location.replace('/dashboard');
+  } else {
+    alert(response.statusText);
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+//  CANCEL A MEETING ORGANIZED BY THE CURRENT USER
+////////////////////////////////////////////////////////////////
+
+
+async function cancelMeetingHandler(event) {
+  event.preventDefault();
+
+  // ignore clicks that were not on a button
+  if (!event.target.closest("button"))
+    return;
+
+  //// otherwise....
+
+  const meeting_id = event.target.dataset.meeting;
+  // const user_id = event.target.dataset.organizer;
+  // console.log(`meeting id: ${meeting_id} user_id: ${user_id}`);
+
+  //////////////////////////////////////////////////
+  //   DELETE the meeting
+  //  
+
+
+  const response = await fetch(`/api/meetings/${meeting_id}`, {
+    method: 'DELETE',
+    body: JSON.stringify({
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  if (response.ok) {
     document.location.replace('/dashboard');
   } else {
     alert(response.statusText);
@@ -71,10 +113,14 @@ async function toggleMeetingHandler(event) {
 }
 
 
+//////////////////////////////////////////////////
+// Event Listeners
 
 
-// add an event listener to the parent element 
-// containing the handlebars template
+
+// add an event listener to the parent div 
+// of each handlebars section
 document.querySelector('#accept-button-nanny').addEventListener('click', toggleMeetingHandler);
 
+document.querySelector('#cancel-button-nanny').addEventListener('click', cancelMeetingHandler);
 

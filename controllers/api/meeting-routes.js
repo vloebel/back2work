@@ -153,7 +153,7 @@ router.put('/:id', (req, res) => {
 
 // (MR6) DELETE A MEETING:
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',  (req, res) => {
   Meeting.destroy({
     where: {
       id: req.params.id
