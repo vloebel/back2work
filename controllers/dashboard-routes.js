@@ -33,7 +33,7 @@ router.get("/", withAuth, (req, res) => {
     // (one object for each "row" in the form columnName:value)
     .then((dbData) => {
 
-      console.log(JSON.stringify(dbData));
+      // console.log(JSON.stringify(dbData));
       var mappedParticipantArray = dbData
         .map((element, i) => {
           // use the "accepted" attribute to set a
