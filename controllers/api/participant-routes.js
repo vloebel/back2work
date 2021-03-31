@@ -28,10 +28,10 @@ const withAuth = require('../../utils/auth');
 //       Delete api/participants/?user=id&meeting=id, for example
 //       DELETE localhost:3002/api/participants/?user=4&meeting=4
 //  (P5) UPDATE the Accepted flag for a Participant
-//       PUT api/participants/?user=id&meeting=id
-//       with {accepted:boolean} in the body, for example:
-//       PUT localhost:3002/api/participants/?user=4&meeting=4
-//        { "accepted":"true"}
+//       PUT api/participants/?user=id&meeting=id with {accepted:boolean} in the body
+//         FOR Example:
+//           localhost:3002/api/participants?user=31&meeting=2
+//           { "accepted":"true"}
 //////////////////////////////////////////////////
 
 //////////////////////////////////////////////////
@@ -186,6 +186,8 @@ router.delete('/', (req, res) => {
 //  Update "accepted" flag
 //  
 //  put api/participants/?user=id&meeting=id
+//  for example: 
+//  localhost:3002/api/participants?user=31&meeting=2
 //   and then have the flag in the body:
 //   { accepted:true}
 
