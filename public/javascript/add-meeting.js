@@ -86,9 +86,7 @@ $(function () {
     dateTimeFormat: "yyyy/MM/dd HH:mm",
     highlightWeekend:true, // highlight the weekend in DatePicker calendar
     width: '180px',
-    value: new Date(),
-    minDateTime: "now 9:00",
-    maxDateTime: "now 17:00"
+    value: new Date()
   });
 });
 
