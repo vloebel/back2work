@@ -63,9 +63,13 @@ button, .btn-small, .btn {
   background-color: #c4752dff !important;
 }
 
-#logout {
-  margin-left: 10px;
+/* used for login and logout button */
+
+.btn-login {
+  margin-left: 15px;
+  display:inline
 }
+
 
 #homepage-img {
   width: 100%;
