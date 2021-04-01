@@ -25,6 +25,16 @@ async function toggleMeetingHandler(event) {
 
   //// otherwise....
 
+   // test of write to button
+ console.log(`event.target: ${event.target}`);
+
+ console.log(`event.target.innerhtml: ${event.target.innerhtml}`);
+
+  event.target.innerhtml = "I AM a FISH";
+ return
+
+
+
   const meeting_id = event.target.dataset.meeting;
   const user_id = event.target.dataset.participant;
   const statusText = event.target.dataset.status;
@@ -89,8 +99,9 @@ async function cancelMeetingHandler(event) {
   //// otherwise....
 
   const meeting_id = event.target.dataset.meeting;
-  // const user_id = event.target.dataset.organizer;
+  // const user_id = event.target.dataset.organizer; //future use
   // console.log(`meeting id: ${meeting_id} user_id: ${user_id}`);
+
 
   //////////////////////////////////////////////////
   //   DELETE the meeting
