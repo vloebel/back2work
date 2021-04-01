@@ -1,20 +1,12 @@
 /////////////////////////////////////////////////
 //            dashboard.js
-/////////////////////////////////////////////////
-//  * event handlers for dashboard buttons
-//  * On the meetings you're invited to:
-//  * Toggle accept - three-way toggle for a 
-//    meeting from accepted to declined to "maybe" 
-//    and then stores the new value in the Particpant table.
-//
-///////////////////////////////////////////////////////////
-//
-//  * On the meetings you've organized
-//  * Cancel meeting
-//  * Deletes the meeting completely from the
-//  * Meetings table
-///////////////////////////////////////////////////////////
+//   event handlers for dashboard.handlebars
+////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////
+//  * toggleMeetingHandler - three-way toggle for a 
+//    meeting from accepted to declined to "maybe" 
+//    stores the new value in the Particpant table.
 
 async function toggleMeetingHandler(event) {
   event.preventDefault();
@@ -25,14 +17,8 @@ async function toggleMeetingHandler(event) {
 
   //// otherwise....
 
-   // test of write to button
- console.log(`event.target: ${event.target}`);
-
- console.log(`event.target.innerhtml: ${event.target.innerhtml}`);
-
-  event.target.innerhtml = "I AM a FISH";
- return
-
+  // test of write to button
+  //  event.target.textContent = "I AM a FISH";
 
 
   const meeting_id = event.target.dataset.meeting;
@@ -44,18 +30,31 @@ async function toggleMeetingHandler(event) {
   // console.log(`meeting id: ${meeting_id} user_id: ${user_id}`);
 
 
-  //   CAUTION: ///////////////////////////////////
+  //   NOTE: ///////////////////////////////////
   //   data-status in the html only sends the first word
   //   of "Not Sure" 
   ///////////////////////////////////////////////////////////
   // toggle the "accepted" flag through three states
   //      Accepted -> Declined -> Not Sure
-  //   convert back to boolean and store in the database
-  //   default "Not Sure" = null
+  //   convert back to boolean
+  //   change the text on the button (avoids page reload)
+  //   store new value in database
 
   let accepted = null;
-  if (statusText == "Accepted") accepted = false;
-  else if (statusText == "Not") accepted = true;
+  if (statusText == "Accepted") {
+    accepted = false;
+    event.target.dataset.status = "Declined";
+    event.target.textContent = "Declined";
+  }
+  else if (statusText == "Not") {
+    accepted = true;
+    event.target.dataset.status = "Accepted";
+    event.target.textContent = "Accepted";
+  }
+  else {
+    event.target.dataset.status = "Not";
+    event.target.textContent = "Not sure";
+  }
 
 
   // console.log(`NOW accepted: ${accepted}`);
@@ -77,9 +76,7 @@ async function toggleMeetingHandler(event) {
       'Content-Type': 'application/json'
     }
   });
-  if (response.ok) {
-    document.location.replace('/dashboard');
-  } else {
+  if (!response.ok) {
     alert(response.statusText);
   }
 }
@@ -97,6 +94,14 @@ async function cancelMeetingHandler(event) {
     return;
 
   //// otherwise....
+
+  //find the div.row this button is in
+  // and hide the row to avoid page reload
+  // vll: I think it does a page refresh anyway
+  //  so this is tbd
+
+  let rowEl = event.target.closest(".row")
+  rowEl.style.display = "none";
 
   const meeting_id = event.target.dataset.meeting;
   // const user_id = event.target.dataset.organizer; //future use
