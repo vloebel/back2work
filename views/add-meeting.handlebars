@@ -13,7 +13,7 @@ POSTS the info to the route: /api/meetings and if response is ok
 RETURNS via document.location.replace('/dashboard');
 --}}
 
-  {{!--  For date picker - move to main?         --}}
+{{!-- For date picker - move to main? --}}
 <link href="//cdn.syncfusion.com/18.4.0.39/js/web/flat-azure/ej.web.all.min.css" rel="stylesheet" />
 
 
@@ -28,9 +28,9 @@ RETURNS via document.location.replace('/dashboard');
       <label for="meeting-topic">Topic</label>
       <input type="text" id="meeting-topic" name="meeting-topic">
     </div>
-  {{!-- -------------------------------------------------------- --}}
-  {{!--    syncfusion.com jQuery  DATE PICKER CODE               --}}
-  {{!-- for info on styles, see https://help.syncfusion.com/js/datepicker/customization --}}
+    {{!-- -------------------------------------------------------- --}}
+    {{!-- syncfusion.com jQuery DATE PICKER CODE --}}
+    {{!-- for info on styles, see https://help.syncfusion.com/js/datepicker/customization --}}
 
     <div class="container">
       <div class="content-container-fluid">
@@ -50,9 +50,24 @@ RETURNS via document.location.replace('/dashboard');
     </div>
 
 
-  {{!--                    END DATE PICKER                       --}}
-  {{!-- -------------------------------------------------------- --}}
-  
+    {{!-- END DATE PICKER --}}
+    {{!-- -------------------------------------------------------- --}}
+    {{!-- BEGIN DROP DOWN --}}
+
+    {{!-- <div>
+      <!-- Dropdown Trigger -->
+      <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Duration</a>
+
+      <!-- Dropdown Structure -->
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="#!">30 mins</a></li>
+        <li><a href="#!">1 hour</a></li>
+        <li><a href="#!">1 hour 30 mins</a></li>
+        <li><a href="#!">2 hours</a></li>
+        <li><a href="#!">2 hours 30 mins</a></li>
+        <li><a href="#!">3 hours</a></li>
+    </div> --}}
+
     <button type="submit" class="btn">Create</button>
   </form>
 </section>
