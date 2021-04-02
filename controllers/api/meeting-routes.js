@@ -5,8 +5,7 @@ const withAuth = require('../../utils/auth');
 
 ////////////////////////////////////////
 //  THESE ARE THE MEETING ROUTES
-// NOTE that some changes like withAuth must be made
-//  to move from insomnia to a front end
+
 // (MR1) FIND ALL MEETINGS 
 //       get api/meetings
 // (MR2) FIND ALL MEETINGS by a specified ORGANIZER
@@ -19,14 +18,16 @@ const withAuth = require('../../utils/auth');
 //       put  api/meetings/id
 // (MR6) DELETE MEETING by its ID
 //       delete  api/meetings/id
+//
+//  Developer's note: add withAuth to routes once they
+// are implemented. Otherwise leave it off for 
+// access via insomnia
 /////////////////////////////////////////////////////////
 
 // (MR1) FIND ALL MEETINGS 
-// vll: need to PUT WITHAUTH BACK IN
-// after inquirer testing is done  
-
 // ROUTE: get/api/meetings
-router.get('/', (req, res) => {
+// Not implemented
+router.get('/',  (req, res) => {
   Meeting.findAll({
     attributes: ['id', 'date', 'start', 'duration',
       'meeting_name', 'topic'
@@ -45,10 +46,10 @@ router.get('/', (req, res) => {
 });
 
 // (MR2) FIND MEETINGS BY ORGANIZER ID 
-// vll: need to PUT WITHAUTH BACK IN
 // ROUTE: get/api/meetings/userid/:id
+//  called from dashboard to get the organizer's meetings
 
-router.get('/userid/:id', (req, res) => {
+router.get('/userid/:id', withAuth,  (req, res) => {
   Meeting.findAll({
     where: {
       organizer_id: req.params.id
@@ -72,6 +73,7 @@ router.get('/userid/:id', (req, res) => {
 
 // (MR3) FIND MEETING BY MEETING ID 
 // get /api/meetings/id
+// not implemented
 
 router.get('/:id', (req, res) => {
   Meeting.findOne({
@@ -104,7 +106,9 @@ router.get('/:id', (req, res) => {
 // for example, .25, .5, 1.5  for the corresponding fractions of hours
 // organizer_id is set to req.session.user_id .. is this the same?
 //
-router.post('/', (req, res) => {
+// called from dashboard to create a new meeting for an organiaer
+//
+router.post('/', withAuth, (req, res) => {
   Meeting.create({
     date: req.body.date,
     start: req.body.start,
@@ -125,8 +129,9 @@ router.post('/', (req, res) => {
 // (MR5) UPDATE a meeting using its ID
 // the req.body can contain 'date',
 // 'start', 'duration', and/or 'organizer_id'
+// not implemented
 
-router.put('/:id', (req, res) => {
+router.put('/:id',  (req, res) => {
 
   // pass in req.body to only update what's passed through
   Meeting.update(req.body, {
@@ -152,8 +157,10 @@ router.put('/:id', (req, res) => {
 });
 
 // (MR6) DELETE A MEETING:
+// called from dashboard to delete a meeting the 
+// logged in user had scheduled
 
-router.delete('/:id',  (req, res) => {
+router.delete('/:id', withAuth,  (req, res) => {
   Meeting.destroy({
     where: {
       id: req.params.id

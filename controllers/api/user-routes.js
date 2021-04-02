@@ -18,12 +18,18 @@ const { User, Meeting } = require('../../models');
 //       put /api/users/:id
 // (UR7) DELETE USER by its ID
 //       delete /api/users/:id
+//
+//  Developer's note: add withAuth to routes once they
+// are implemented. In the meantime leave it off for 
+// access via insomnia
 
 /////////////////////////////////////////////////////////
 
 // UR1 find ALL USERS
 // route: get/api/users
-router.get('/', (req, res) => {
+// Not implemented
+
+router.get('/',  (req, res) => {
   User.findAll({
     attributes:['id','firstname','lastname','available'],
   })
@@ -38,8 +44,10 @@ router.get('/', (req, res) => {
 // (Use meeting routes to get meetings by user ID)
 // returns all attributes except password
 // get /api/users/id
+// Not implemented
 
-router.get('/:id', (req, res) => {
+
+router.get('/:id',  (req, res) => {
   User.findOne({
     where: {
       id: req.params.id
@@ -65,7 +73,7 @@ router.get('/:id', (req, res) => {
 // called from login.js
 // post route /api/users/login
 
-router.post('/login', (req, res) => {
+router.post('/login',  (req, res) => {
   // expects {email: 'abnormal@gmail.com', password: 'pwdd'}
   User.findOne({
     where: {
@@ -146,8 +154,10 @@ router.post('/', (req, res) => {
 // you don't have to send the whole user, just the
 // name:value to update
 // put /api/users/:id
+// Not implemented
 
-router.put('/:id', (req, res) => {
+
+router.put('/:id',  (req, res) => {
 
   // pass in req.body instead to only update what's passed through
   User.update(req.body, {
@@ -173,6 +183,7 @@ router.put('/:id', (req, res) => {
 // UR6 DELETE USER by ID
 // deletes the specified user
 // route: delete /api/users/:id
+// Not implemented
 
 router.delete('/:id', (req, res) => {
   User.destroy({
