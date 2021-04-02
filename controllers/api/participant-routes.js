@@ -33,10 +33,14 @@ const withAuth = require('../../utils/auth');
 //           localhost:3002/api/participants?user=31&meeting=2
 //           { "accepted":"true"}
 //////////////////////////////////////////////////
+//
+//  vll : since there's no way to assign meetings
+//  at this point except with insomnia, withAuth has been omitted
+//  it should be added to each route when it is implemented
 
 //////////////////////////////////////////////////
 // (P0) Dump the Participant table
-// Might be useful for an admin or something?
+// Admin feature - not implemented 
 
 router.get('/', (req, res) => {
   Participant.findAll({
@@ -61,8 +65,10 @@ router.get('/', (req, res) => {
 /////////////////////////////////////////
 //  (P1) Get all meetings for specified user
 //    /api/participants/meetings/:user_id
+// called from dashboard to show meetings user is
+// invited to
 
-router.get('/meetings/:id', (req, res) => {
+router.get('/meetings/:id', withAuth, (req, res) => {
   Participant.findAll({
     where: {
       user_id: req.params.id
@@ -97,7 +103,8 @@ router.get('/meetings/:id', (req, res) => {
 
 /////////////////////////////////////////
 //  (P2) Get all the users invited to a specified meeting_id
-//      /api/participants/users/:meeting_id
+//   /api/participants/users/:meeting_id
+// not implemented
 
 router.get('/users/:id', (req, res) => {
   Participant.findAll({
@@ -140,6 +147,7 @@ router.get('/users/:id', (req, res) => {
 // {"7" : "4"}
 //  leave "accepted" flag null because the person who
 //  invites doesn't know if they will accept or not
+//  not implemented
 
 router.post('/', (req, res) => {
   Participant.create({
@@ -160,6 +168,7 @@ router.post('/', (req, res) => {
 // there could be other routes, like remove ALL
 // of a user's meetings, but that' not in the spec. 
 // DELETE api/participants  - user id and meeting id in body.
+// not implemented
 
 router.delete('/', (req, res) => {
   Participant.destroy( {
@@ -190,9 +199,9 @@ router.delete('/', (req, res) => {
 //  localhost:3002/api/participants?user=31&meeting=2
 //   and then have the flag in the body:
 //   { accepted:true}
+//  called from dashboard.js to update meeting acceptance
 
-
-router.put('/', (req, res) => {
+router.put('/', withAuth, (req, res) => {
   Participant.update(req.body, {
     individualHooks:true,
     where: {
