@@ -85,7 +85,8 @@ router.get("/", withAuth, (req, res) => {
             });
           res.render("dashboard", {
             participantObj: mappedParticipantArray,
-            meetingObj: mappedOrganizerArray
+            meetingObj: mappedOrganizerArray,
+            loggedIn: true
           });
         })
         .catch((err) => {

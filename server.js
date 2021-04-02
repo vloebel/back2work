@@ -41,7 +41,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(require('./controllers/'));
 
-// vll: while we are debugging tables force:true
+// WHEN DATABASE CHANGES
+// use mySql to rebuild schema: "source ./db/schema.sql
+// set force:true HERE
+// start the server - this rebuilds our tables - and then quit
+// set force: false (IMPORTANT!) - now the database is good but all data is gone
+// reseed the database as desired. You can do this in mySQL with "source ./db/seeds.sql"
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Server listening on: http://localhost:${PORT}`));
 });
