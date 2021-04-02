@@ -1,71 +1,53 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
 ![banner](./assets/rm-banner.jpg)
-# Back2work -  Human Resources scheduling and Organization
+# Back2work -  Meeting Scheduling App
 ## UA Web Coding Bootcamp - Group Project Two
-### March 28, 2021
+### March 31, 2021
 
 Developers:
-* [Alicia Vega](https://github.com/aliciavega731): Design, Back-end developent
-* [George Bravo](https://github.com/gbravo23): Back-end development
+* [Alicia Vega](https://github.com/aliciavega731): Design, Front-end developent
+* [George Bravo](https://github.com/gbravo23): Back-end development/API
 * [Kate Lynn](https://github.com/klynn726): Front-end development
-* [Vicky Loebel](https://github.com/vloebel): Front-end development, project manager
+* [Vicky Loebel](https://github.com/vloebel): Front-end/ back-end, project manager
 
 ## Table of Contents  
-* [Installation](#Installation) 
-* [Usage](#Usage)
+* [Description](#Description)
+* [Application_Links](#Application_Links)
 * [User_Story](#User_Story)  
-* [User_Requirements](#User_Requirements)  
-* [Questions](#Questions)    
+* [Entity_Relationship_Diagram](#Entity_Relationship_Diagram)  
+* [Screen_Shot](#Screen_Shot)    
 * [License](#License)
 
-
 ## Description  
-With the Covid-19 Pandemic on the run, people are getting back to work, going into the office, attending classes in school. But are we ready to leave those half-trained puppies we adopted home alone all day? Will we need to make sure everyone's vaccinated, before we meet face-to-face? 
+With the Covid-19 Pandemic on the run, people are getting back to work, going into the office, attending classes in school. But how will we keep track of all our in-person commitments? Back2work is a is a full-stack web application that lets us schedule meetings and let organizers know whether or not you plan to attend.
 
-Back2work is a full-stack application designed to make managing employee schedules a snap.
-
-### Link to Application
-This application is deployed on Heroku. LINK TBD
+### Application_Links
+Deployed application: [back2work](https://vllback2work.herokuapp.com/)  
 Github Repository: [github.com/vloebel/back2work](https://github.com/vloebel/back2work)
 
-## Installation  
-TBD  
-
-## Usage  
-* Run on Heroku
-
-## Data  
-* What information do we need in our database
-
 ## User_Story 
-* Who is using this?   
-* Is it employees?   
-* HR/Admin? 
-* Both - are there different "front ends" 
+As someone who is back to work with in-person meetings   
+* I want to organize meeings for my friends and co-workers to attend   
+* I want to be able to respond to meeting invitaitons and accept, decline, or let them know I'm not sure yet. 
 
-## User_Requirements
-### Given Employees who work a combination of at home and in person hours...  
-
-WHEN xxxx  
-* THEN yyyy   
-
-WHEN xxxx  
-* THEN yyyy   
-
-## APIs Used
+## Entity_Relationship_Diagram  
+![erd](./assets/erd.jpg)
 
 ## Libraries Used
+* [Materialize.css](https://materializecss.com/)
+* [Handlebars.js](https://handlebarsjs.com/)
+* [express.js](https://expressjs.com/)
+* [express-session](https://www.npmjs.com/package/express-session)
+* [sequelize/mySql](http://sequelize.org/)
+* [SyncFusion_Datepicker](https://help.syncfusion.com/js/datepicker/overview)
 * [fonts.googleapis](https://fonts.google.com/)
-  * Materialize fonts
-* [jQuery](https://jquery.com/)
-  * Materialize initializations
 * [font-awesome](https://fontawesome.com/)
-  * icon fonts
+* [jQuery](https://jquery.com/)
 
-## Screen Shots
+## Screen_Shot
 
-
+![back2work](./assets/back2work-login.jpg)
 
 ## License
 This software is distrubted without warranty under the MIT license agreement. To view terms and conditions, visit the [MIT License website](https://opensource.org/licenses/MIT).
