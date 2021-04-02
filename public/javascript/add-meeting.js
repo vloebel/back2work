@@ -82,19 +82,19 @@ async function addMeetingHandler(event) {
 ///////////////////////////////////////////
 $(function () {
   $('#meeting-date-time').ejDateTimePicker({
-    interval: 60,
+    interval: 30,
     dateTimeFormat: "yyyy/MM/dd HH:mm",
     highlightWeekend:true, // highlight the weekend in DatePicker calendar
     width: '180px',
-    value: new Date(),
-    timeDrillDown: {
-      enabled: true,
-      interval: 30,
-      showMeridian: false
-    },
+    value: new Date()
   });
 });
 
+/////////drop down event listener//////////
+// document.addEventListener('DOMContentLoaded', function() {
+//   var elems = document.querySelectorAll('.dropdown-trigger');
+//   var instances = M.Dropdown.init(elems, options);
+// });
 
 /////////////////////////////////////////////////////
 // event listener 

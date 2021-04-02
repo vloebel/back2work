@@ -3,10 +3,9 @@ const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 
 // render the  homepage
+// and pass logged-in status
 router.get('/', (req, res) => {
   console.log('======================');
-// No database calls here yet
-// TBD: Determine what goes on home page
   res.render('homepage', {
         loggedIn: req.session.loggedIn
       });

@@ -1,14 +1,8 @@
-{{!-- 
-  DISPLAYS each blog post
-  CALLED BY
+{{!-- CALLED BY
     controllers/home-routes.js
-    res.render('homepage', {
-        posts,
-        loggedIn: req.session.loggedIn
-      }); 
-  CALLS
-    post-info.post 
+    loggedIn indicates the user's req.session status
   --}}
+
 <div class="row">
   <div class="col l6 m12 s12" >
     <img id="homepage-img" src="/assets/office-space.jpg" alt="Office space" < />
