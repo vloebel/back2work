@@ -23,7 +23,7 @@ Developers:
 With the Covid-19 Pandemic on the run, people are getting back to work, going into the office, attending classes in school. But how will we keep track of all our in-person commitments? Back2work is a is a full-stack web application that lets us schedule meetings and let organizers know whether or not you plan to attend.
 
 ### Application_Links
-This application is deployed on Heroku. [back2work](https://vllback2work.herokuapp.com/)
+Deployed application: [back2work](https://vllback2work.herokuapp.com/)  
 Github Repository: [github.com/vloebel/back2work](https://github.com/vloebel/back2work)
 
 ## User_Story 
